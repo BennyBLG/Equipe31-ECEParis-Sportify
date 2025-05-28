@@ -25,7 +25,7 @@ body {
     margin: 0;
 }
 
-/* Menu avec effet design */
+/* Menu */
 nav ul {
     list-style-type: none;
     padding: 0;
@@ -115,9 +115,11 @@ nav ul li a:hover {
 }
 
 /* Section "Carte et Qui sommes-nous" */
-.carte-qui-sommes-nous {
+.map-info-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  /* Centrer tout le contenu horizontalement */
     gap: 20px;
     padding: 40px 20px;
     background-color: #ffffff;
@@ -126,22 +128,22 @@ nav ul li a:hover {
 }
 
 .map-container {
-    width: 48%;  /* Réduit la taille de la carte */
+    width: 100%;
+    max-width: 500px; /* Largeur maximale de la carte */
+    margin: 0 auto;  /* Centrer la carte */
 }
 
-.qui-sommes-nous-content {
-    width: 48%;
-    text-align: left;
+.contact-info {
+    text-align: center;
 }
 
-.qui-sommes-nous-content h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-.qui-sommes-nous-content p {
+.contact-info p {
     font-size: 1.2em;
     line-height: 1.6;
+}
+
+.contact-info strong {
+    font-weight: 700;
 }
 
 /* Footer */
