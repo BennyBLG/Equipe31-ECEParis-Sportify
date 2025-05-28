@@ -1523,3 +1523,384 @@ mark {
         grid-template-columns: 1fr;
     }
 }
+
+/* ===== STYLES POUR VOTRE_COMPTE.PHP ===== */
+
+/* Section de sélection de rôle */
+.role-selection {
+    padding: 60px 0;
+    background-color: var(--white);
+}
+
+.role-selection h2 {
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 50px;
+    font-size: 2.5em;
+}
+
+.role-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.role-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 3px solid transparent;
+}
+
+.role-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.role-card:hover::before {
+    left: 100%;
+}
+
+.role-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--secondary-color);
+}
+
+.role-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.role-card h3 {
+    color: var(--secondary-color);
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.role-card p {
+    color: var(--text-light);
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.role-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+    text-align: left;
+}
+
+.role-card li {
+    padding: 8px 0;
+    color: var(--text-color);
+    position: relative;
+    padding-left: 25px;
+    font-size: 0.95em;
+}
+
+.role-card li::before {
+    content: attr(data-icon);
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+/* Section de connexion */
+.login-section, .register-section {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.login-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.login-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    box-shadow: var(--shadow);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h2 {
+    color: var(--text-color);
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.login-header p {
+    color: var(--text-light);
+    font-size: 1.1em;
+}
+
+/* Alertes */
+.alert {
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-icon {
+    font-size: 1.2em;
+}
+
+/* Formulaires */
+.login-form, .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.login-footer a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-footer a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Informations de test */
+.test-info {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.test-info h3 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.3em;
+}
+
+.test-accounts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.test-account {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.test-account h4 {
+    color: var(--text-color);
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+
+.test-account p {
+    margin: 4px 0;
+    font-size: 0.9em;
+    color: var(--text-light);
+}
+
+.test-account strong {
+    color: var(--text-color);
+}
+
+/* Informations d'inscription */
+.register-info {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.register-info h3 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.3em;
+}
+
+.register-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.register-info li {
+    padding: 10px 0;
+    color: var(--text-color);
+    position: relative;
+    padding-left: 25px;
+    line-height: 1.5;
+}
+
+.register-info li::before {
+    content: '✅';
+    position: absolute;
+    left: 0;
+}
+
+/* Animations et transitions */
+.role-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transition);
+}
+
+.role-card.animate-fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .login-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .role-cards {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .role-card {
+        padding: 30px 20px;
+    }
+    
+    .role-icon {
+        font-size: 3em;
+    }
+    
+    .role-card h3 {
+        font-size: 1.5em;
+    }
+    
+    .login-card {
+        padding: 30px 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .test-accounts {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .role-selection {
+        padding: 40px 0;
+    }
+    
+    .role-selection h2 {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+    
+    .role-card {
+        padding: 25px 15px;
+    }
+    
+    .login-section, .register-section {
+        padding: 40px 0;
+    }
+    
+    .login-card {
+        padding: 25px 15px;
+    }
+}
