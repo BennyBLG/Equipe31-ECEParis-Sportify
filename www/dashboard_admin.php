@@ -526,26 +526,3 @@ if ($_POST) {
             });
         });
 
-        // Raccourcis clavier pour admin
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey || e.metaKey) {
-                switch(e.key) {
-                    case 'n': // Ctrl+N : Nouveau coach
-                        e.preventDefault();
-                        window.location.href = 'admin_add_coach.php';
-                        break;
-                    case 's': // Ctrl+S : Sauvegarde
-                        e.preventDefault();
-                        window.location.href = 'admin_backup.php';
-                        break;
-                    case 'r': // Ctrl+R : Rapports
-                        e.preventDefault();
-                        window.location.href = 'admin_reports.php';
-                        break;
-                }
-            }
-        });
-    </script>
-</body>
-</html>
-    <!-- tibilibile  -->
