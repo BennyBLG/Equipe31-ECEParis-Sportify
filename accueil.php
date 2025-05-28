@@ -11,7 +11,7 @@
     <!-- Rectangle supérieur avec menu aligné -->
     <div class="top-bar">
         <div class="header-container">
-            <h1>Sportify</h1>
+            <h1 class="center-title">Sportify</h1>
             <nav>
                 <ul>
                     <li><a href="accueil.php">Accueil</a></li>
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <!-- Section d'introduction et slogan -->
+    <!-- Reste de la page -->
     <section class="hero">
         <div class="hero-content">
             <h2>Bienvenue sur Sportify</h2>
