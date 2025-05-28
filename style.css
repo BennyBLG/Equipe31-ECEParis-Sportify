@@ -41,51 +41,54 @@ header nav ul li a:hover {
     text-decoration: underline;
 }
 
-/* Carrousel des coachs */
-.carrousel {
+/* Hero section */
+.hero {
+    background-color: #a0c4ff;
+    color: white;
     text-align: center;
+    padding: 100px 20px;
+}
+
+.hero h2 {
+    font-size: 3em;
+}
+
+.hero p {
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+.btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Événement et bulletin */
+.evenement, .bulletin {
     padding: 40px 20px;
-    background-color: #ffffff;
-}
-
-.carrousel h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-.carousel-images {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-}
-
-.carousel-images img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/* Bulletin sportif */
-.bulletin {
     text-align: center;
-    padding: 30px 20px;
-    background-color: #e8f7ff;
 }
 
-.bulletin h2 {
-    font-size: 2em;
+.evenement h2, .bulletin h2 {
+    font-size: 2.5em;
     margin-bottom: 20px;
 }
 
-.bulletin-content {
+.evenement-content, .bulletin-content {
     font-size: 1.2em;
 }
 
-/* Localisation et contact */
+/* Google Map et localisation */
 .localisation {
     padding: 40px 20px;
-    background-color: white;
     text-align: center;
 }
 
