@@ -5,6 +5,7 @@ body {
     padding: 0;
     background-color: #f0f8ff;
     color: #333;
+    overflow-x: hidden;  /* Empêche le défilement horizontal */
 }
 
 /* Rectangle supérieur */
@@ -62,6 +63,7 @@ nav ul li a:hover {
     text-align: center;
     padding: 100px 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s ease;
 }
 
 .hero h2 {
@@ -102,48 +104,123 @@ nav ul li a:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Sections (Événement, Bulletin, Qui sommes-nous, etc.) */
-.evenement h2, .bulletin h2, .carrousel h2, .localisation h2 {
-    font-size: 2.5em;
-    color: #003366;
-    margin-bottom: 20px;
-}
-
-.evenement-content, .bulletin-content, .qui-sommes-nous-content, .carrousel-content {
-    font-size: 1.2em;
-    line-height: 1.6;
-}
-
-/* Section "Carte et Qui sommes-nous" */
-.map-info-container {
+/* Catégories */
+.categories-list {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;  /* Centrer tout le contenu horizontalement */
+    justify-content: space-between;
     gap: 20px;
-    padding: 40px 20px;
+    flex-wrap: wrap;
+}
+
+.category-item {
     background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
-.map-container {
-    width: 100%;
-    max-width: 500px; /* Largeur maximale de la carte */
-    margin: 0 auto;  /* Centrer la carte */
-}
-
-.contact-info {
+    width: 30%;
     text-align: center;
 }
 
-.contact-info p {
-    font-size: 1.2em;
-    line-height: 1.6;
+.category-item h3 {
+    font-size: 2em;
+    color: #003366;
 }
 
-.contact-info strong {
+.category-item p {
+    font-size: 1.2em;
+    margin: 15px 0;
+}
+
+.category-item a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Activités Sportives */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.activity-item {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.activity-item button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.activity-item button:hover {
+    background-color: #0056b3;
+}
+
+/* Sports de Compétition */
+.sport-item {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.sport-item button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sport-item button:hover {
+    background-color: #0056b3;
+}
+
+/* Salle de sport */
+.salle-info {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.salle-info p {
+    font-size: 1.2em;
+}
+
+.salle-info strong {
     font-weight: 700;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
 /* Footer */
