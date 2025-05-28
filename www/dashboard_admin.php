@@ -52,6 +52,7 @@ $system_alerts = [
 ];
 
 // Traitement des actions admin
+$success_message = '';
 if ($_POST) {
     if (isset($_POST['toggle_coach_status'])) {
         $coach_id = (int)$_POST['coach_id'];
@@ -115,7 +116,7 @@ if ($_POST) {
             </div>
         </div>
 
-        <?php if (isset($success_message)): ?>
+        <?php if (!empty($success_message)): ?>
         <div class="container">
             <div class="alert alert-success">
                 <span class="alert-icon">✅</span>
@@ -279,11 +280,11 @@ if ($_POST) {
                                        class="btn-action edit" title="Modifier">✏️</a>
                                     <a href="admin_xml_generator.php?coach=<?php echo $coach['id']; ?>" 
                                        class="btn-action xml" title="CV XML">📄</a>
-                                    <form method="POST" style="display: inline;" 
-                                          onsubmit="return confirm('⚠️ Êtes-vous sûr de vouloir supprimer ce coach ?\n\nCette action supprimera :\n- Le profil du coach\n- Son CV XML\n- Tous ses rendez-vous\n- Son historique')">
+                                    <form method="POST" style="display: inline;">
                                         <input type="hidden" name="coach_id" value="<?php echo $coach['id']; ?>">
                                         <button type="submit" name="delete_coach" 
-                                                class="btn-action delete" title="Supprimer">🗑️</button>
+                                                class="btn-action delete" title="Supprimer" 
+                                                onclick="return confirm('⚠️ Êtes-vous sûr de vouloir supprimer ce coach ?')">🗑️</button>
                                     </form>
                                 </td>
                             </tr>
@@ -516,9 +517,7 @@ if ($_POST) {
         document.querySelectorAll('.btn-action.delete, .status-toggle').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 if (this.classList.contains('delete')) {
-                    if (!confirm('⚠️ ATTENTION !\n\nVous êtes sur le point de supprimer définitivement ce coach.\n\nCette action supprimera :\n• Le profil du coach\n• Son CV XML\n• Tous ses rendez-vous\n• Son historique complet\n• Les évaluations clients\n\nÊtes-vous absolument certain ?')) {
-                        e.preventDefault();
-                    }
+                    return; // La confirmation est déjà dans onclick
                 } else if (this.classList.contains('inactif')) {
                     if (!confirm('Activer ce coach ?\n\nLe coach pourra à nouveau :\n• Recevoir de nouveaux clients\n• Être visible dans les recherches\n• Gérer son planning')) {
                         e.preventDefault();
@@ -526,295 +525,6 @@ if ($_POST) {
                 }
             });
         });
-
-        // Auto-refresh des alertes système
-        setInterval(function() {
-            fetch('admin_get_alerts.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.new_alerts) {
-                        location.reload();
-                    }
-                })
-                .catch(error => console.log('Vérification des alertes échouée'));
-        }, 60000); // Toutes les minutes
-
-        // Raccourcis clavier pour admin
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey || e.metaKey) {
-                switch(e.key) {
-                    case 'n': // Ctrl+N : Nouveau coach
-                        e.preventDefault();
-                        window.location.href = 'admin_add_coach.php';
-                        break;
-                    case 's': // Ctrl+S : Sauvegarde
-                        e.preventDefault();
-                        window.location.href = 'admin_backup.php';
-                        break;
-                    case 'r': // Ctrl+R : Rapports
-                        e.preventDefault();
-                        window.location.href = 'admin_reports.php';
-                        break;
-                }
-            }
-        });
-    </script>
-</body>
-</html>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Gestion des clients - Aperçu -->
-        <section class="clients-management">
-            <div class="container">
-                <div class="section-header-admin">
-                    <h2>👥 Aperçu des clients</h2>
-                    <a href="admin_clients.php" class="btn btn-outline">Gérer tous les clients</a>
-                </div>
-
-                <div class="clients-grid">
-                    <?php foreach ($clients_data as $client): ?>
-                    <div class="client-card">
-                        <div class="client-header">
-                            <div class="client-avatar">
-                                <img src="https://via.placeholder.com/60x60/007BFF/ffffff?text=<?php echo substr($client['prenom'], 0, 1); ?>" 
-                                     alt="<?php echo $client['prenom']; ?>">
-                            </div>
-                            <div class="client-info">
-                                <h4><?php echo htmlspecialchars($client['prenom'] . ' ' . $client['nom']); ?></h4>
-                                <p><?php echo htmlspecialchars($client['email']); ?></p>
-                            </div>
-                        </div>
-                        <div class="client-stats">
-                            <div class="stat-item">
-                                <span class="stat-value"><?php echo $client['nb_rdv']; ?></span>
-                                <span class="stat-label">RDV</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value"><?php echo date('d/m/Y', strtotime($client['date_inscription'])); ?></span>
-                                <span class="stat-label">Inscrit le</span>
-                            </div>
-                        </div>
-                        <div class="client-actions">
-                            <a href="admin_client_detail.php?id=<?php echo $client['id']; ?>" 
-                               class="btn btn-outline btn-sm">Voir détails</a>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </section>
-
-        <!-- Configuration de la salle de sport -->
-        <section class="gym-configuration">
-            <div class="container">
-                <div class="section-header-admin">
-                    <h2>🏢 Configuration Salle de Sport Omnes</h2>
-                    <a href="admin_salle.php" class="btn btn-primary">Modifier configuration</a>
-                </div>
-
-                <div class="gym-config-grid">
-                    <div class="config-card">
-                        <h3>🕐 Horaires d'ouverture</h3>
-                        <div class="config-content">
-                            <p><strong>Lun-Ven :</strong> 7h00 - 22h00</p>
-                            <p><strong>Sam-Dim :</strong> 8h00 - 20h00</p>
-                        </div>
-                        <a href="admin_horaires.php" class="btn btn-outline btn-sm">Modifier</a>
-                    </div>
-
-                    <div class="config-card">
-                        <h3>📞 Coordonnées</h3>
-                        <div class="config-content">
-                            <p><strong>Téléphone :</strong> +33 1 23 45 67 89</p>
-                            <p><strong>Email :</strong> salle@sportify.com</p>
-                            <p><strong>Adresse :</strong> 123 Rue du Sport, Paris</p>
-                        </div>
-                        <a href="admin_contact.php" class="btn btn-outline btn-sm">Modifier</a>
-                    </div>
-
-                    <div class="config-card">
-                        <h3>⚙️ Services disponibles</h3>
-                        <div class="config-content">
-                            <ul>
-                                <li>✅ Musculation</li>
-                                <li>✅ Cardio-training</li>
-                                <li>✅ Cours collectifs</li>
-                                <li>✅ Vestiaires</li>
-                                <li>✅ Parking</li>
-                            </ul>
-                        </div>
-                        <a href="admin_services.php" class="btn btn-outline btn-sm">Modifier</a>
-                    </div>
-
-                    <div class="config-card">
-                        <h3>💰 Tarification</h3>
-                        <div class="config-content">
-                            <p><strong>Séance individuelle :</strong> €35</p>
-                            <p><strong>Cours collectif :</strong> €25</p>
-                            <p><strong>Consultation :</strong> €30</p>
-                        </div>
-                        <a href="admin_tarifs.php" class="btn btn-outline btn-sm">Modifier</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Activité récente -->
-        <section class="recent-activity">
-            <div class="container">
-                <h2>📋 Activité récente</h2>
-                <div class="activity-timeline">
-                    <?php foreach ($recent_activities as $activity): ?>
-                    <div class="activity-item">
-                        <div class="activity-icon <?php echo $activity['type']; ?>">
-                            <?php 
-                            $icons = [
-                                'add' => '➕',
-                                'edit' => '✏️',
-                                'delete' => '🗑️',
-                                'xml' => '📄'
-                            ];
-                            echo $icons[$activity['type']] ?? '📝';
-                            ?>
-                        </div>
-                        <div class="activity-content">
-                            <h4><?php echo htmlspecialchars($activity['action']); ?></h4>
-                            <p><?php echo htmlspecialchars($activity['details']); ?></p>
-                        </div>
-                        <div class="activity-time">
-                            Il y a <?php echo htmlspecialchars($activity['time']); ?>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="activity-actions">
-                    <a href="admin_activity_log.php" class="btn btn-outline">Voir tout l'historique</a>
-                    <a href="admin_export_log.php" class="btn btn-outline">Exporter les logs</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Outils d'administration avancés -->
-        <section class="admin-tools">
-            <div class="container">
-                <h2>🛠️ Outils d'administration</h2>
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <div class="tool-icon">📄</div>
-                        <h3>Générateur CV XML</h3>
-                        <p>Créer et gérer les CV XML des coachs avec toutes leurs informations professionnelles</p>
-                        <div class="tool-features">
-                            <span>✓ Formations</span>
-                            <span>✓ Expériences</span>
-                            <span>✓ Certifications</span>
-                            <span>✓ Export/Import</span>
-                        </div>
-                        <a href="admin_xml_generator.php" class="btn btn-primary">Accéder</a>
-                    </div>
-
-                    <div class="tool-card">
-                        <div class="tool-icon">📊</div>
-                        <h3>Rapports & Statistiques</h3>
-                        <p>Analyser les performances de la plateforme et générer des rapports détaillés</p>
-                        <div class="tool-features">
-                            <span>✓ Revenus</span>
-                            <span>✓ Fréquentation</span>
-                            <span>✓ Satisfaction</span>
-                            <span>✓ Export PDF</span>
-                        </div>
-                        <a href="admin_reports.php" class="btn btn-primary">Accéder</a>
-                    </div>
-
-                    <div class="tool-card">
-                        <div class="tool-icon">💾</div>
-                        <h3>Sauvegarde & Restauration</h3>
-                        <p>Gérer les sauvegardes automatiques et manuelles de toutes les données</p>
-                        <div class="tool-features">
-                            <span>✓ Sauvegarde auto</span>
-                            <span>✓ Export BDD</span>
-                            <span>✓ Restauration</span>
-                            <span>✓ Planification</span>
-                        </div>
-                        <a href="admin_backup.php" class="btn btn-primary">Accéder</a>
-                    </div>
-
-                    <div class="tool-card">
-                        <div class="tool-icon">⚙️</div>
-                        <h3>Configuration Système</h3>
-                        <p>Paramètres avancés de la plateforme et configuration des fonctionnalités</p>
-                        <div class="tool-features">
-                            <span>✓ Emails auto</span>
-                            <span>✓ Notifications</span>
-                            <span>✓ Sécurité</span>
-                            <span>✓ Performances</span>
-                        </div>
-                        <a href="admin_settings.php" class="btn btn-primary">Accéder</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <script>
-        // Animation des cartes au chargement
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.stat-card, .action-card, .config-card, .tool-card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.classList.add('animate-fade-in');
-                }, index * 50);
-            });
-        });
-
-        // Mise à jour automatique des statistiques
-        function updateStats() {
-            const rdvElement = document.querySelector('.stat-card:nth-child(3) .stat-number');
-            if (rdvElement && Math.random() < 0.1) {
-                let currentValue = parseInt(rdvElement.textContent);
-                rdvElement.textContent = currentValue + 1;
-                rdvElement.style.color = '#28a745';
-                setTimeout(() => {
-                    rdvElement.style.color = '';
-                }, 2000);
-            }
-        }
-
-        setInterval(updateStats, 30000); // Toutes les 30 secondes
-
-        // Confirmation des actions critiques
-        document.querySelectorAll('.btn-action.delete, .status-toggle').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if (this.classList.contains('delete')) {
-                    if (!confirm('⚠️ ATTENTION !\n\nVous êtes sur le point de supprimer définitivement ce coach.\n\nCette action supprimera :\n• Le profil du coach\n• Son CV XML\n• Tous ses rendez-vous\n• Son historique complet\n• Les évaluations clients\n\nÊtes-vous absolument certain ?')) {
-                        e.preventDefault();
-                    }
-                } else if (this.classList.contains('inactif')) {
-                    if (!confirm('Activer ce coach ?\n\nLe coach pourra à nouveau :\n• Recevoir de nouveaux clients\n• Être visible dans les recherches\n• Gérer son planning')) {
-                        e.preventDefault();
-                    }
-                }
-            });
-        });
-
-        // Auto-refresh des alertes système
-        setInterval(function() {
-            fetch('admin_get_alerts.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.new_alerts) {
-                        location.reload();
-                    }
-                })
-                .catch(error => console.log('Vérification des alertes échouée'));
-        }, 60000); // Toutes les minutes
 
         // Raccourcis clavier pour admin
         document.addEventListener('keydown', function(e) {
