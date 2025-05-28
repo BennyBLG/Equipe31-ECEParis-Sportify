@@ -1,0 +1,137 @@
+/* Style global */
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8ff;
+    color: #333;
+}
+
+/* Rectangle supérieur */
+.top-bar {
+    background-color: #a0c4ff; /* Bleu pastel */
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-container h1 {
+    font-size: 2.5em;
+    color: white;
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+    color: #ff6347;  /* Change color on hover */
+}
+
+/* Hero Section */
+.hero {
+    background-color: #a0c4ff;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero h2 {
+    font-size: 3.5em;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.8em;
+    margin-top: 15px;
+}
+
+.hero .btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+.hero .btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);  /* Subtle scaling effect on hover */
+}
+
+/* Événement de la semaine et Bulletin */
+.evenement, .bulletin {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #ffffff;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.evenement h2, .bulletin h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.evenement-content, .bulletin-content {
+    font-size: 1.2em;
+}
+
+/* Google Map et localisation */
+.localisation {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 450px;
+    border: none;
+}
+
+.contact-info {
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #a0c4ff;
+    color: white;
+    font-size: 1em;
+}
