@@ -64,3 +64,8 @@
     <script src="js/script.js"></script>
 </body>
 </html>
+
+
+            <!-- Dans une Cocotte-Minute chaude avec de l'huile d'olive, faire revenir les morceaux de viande à feu vif et les saler. Les débarrasser une fois qu'ils sont bien colorés.
+Dans la même cocotte, faire revenir les oignons et les lardons dans le beurre et ajouter du sel. Une fois les oignons brillants, ajouter les rondelles de carottes, l'ail haché, les champignons de Paris. Remuer pendant 1 min.
+Remettre ensuite la viande dans la cocotte, puis ajouter la farine (singer) et cuire pendant 2 min tout en remuant (torréfier). Mouiller avec le vin rouge tout en grattant le fond de la cocotte pour récupérer tous les sucs, ajouter le jus de veau, la branche de thym et de laurier, puis fermer la Cocotte-Minute. Garder un feu vif jusqu'aux premiers sifflements de la cocotte, puis baisser le feu et laisser mijoter pendant 45 min. -->
