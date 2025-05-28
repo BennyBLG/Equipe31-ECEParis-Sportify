@@ -15,25 +15,23 @@ body {
 }
 
 .header-container {
-    width: 80%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%;
+    text-align: center;  /* Centre le contenu */
 }
 
-.header-container h1 {
-    font-size: 2.5em;
+.center-title {
+    font-size: 3em;
     color: white;
     margin: 0;
 }
 
+/* Menu */
 nav ul {
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: 20px 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centre les éléments du menu */
     gap: 30px;
 }
 
@@ -49,10 +47,10 @@ nav ul li a {
 
 nav ul li a:hover {
     text-decoration: underline;
-    color: #ff6347;  /* Change color on hover */
+    color: #ff6347;
 }
 
-/* Hero Section */
+/* Reste des sections */
 .hero {
     background-color: #a0c4ff;
     color: white;
@@ -83,11 +81,11 @@ nav ul li a:hover {
 
 .hero .btn:hover {
     background-color: #0056b3;
-    transform: scale(1.05);  /* Subtle scaling effect on hover */
+    transform: scale(1.05);
 }
 
-/* Événement de la semaine et Bulletin */
-.evenement, .bulletin {
+/* Autres sections (événement, bulletin, localisation) */
+.evenement, .bulletin, .localisation {
     padding: 40px 20px;
     text-align: center;
     background-color: #ffffff;
@@ -104,14 +102,6 @@ nav ul li a:hover {
     font-size: 1.2em;
 }
 
-/* Google Map et localisation */
-.localisation {
-    padding: 40px 20px;
-    text-align: center;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .map-container iframe {
     width: 100%;
     height: 450px;
@@ -123,11 +113,6 @@ nav ul li a:hover {
     margin-top: 20px;
 }
 
-.contact-info p {
-    margin-bottom: 10px;
-}
-
-/* Footer */
 footer {
     text-align: center;
     padding: 20px;
