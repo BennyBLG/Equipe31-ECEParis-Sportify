@@ -1,13 +1,13 @@
 /* Style global */
 body {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f0f8ff;
     color: #333;
 }
 
-/* Rectangle supérieur */
+/* Rectangle supérieur sans titre */
 .top-bar {
     background-color: #a0c4ff; /* Bleu pastel */
     padding: 20px 0;
@@ -16,16 +16,10 @@ body {
 
 .header-container {
     width: 100%;
-    text-align: center;  /* Centre le contenu */
+    text-align: center;
 }
 
-.center-title {
-    font-size: 3em;
-    color: white;
-    margin: 0;
-}
-
-/* Menu */
+/* Menu avec effet design */
 nav ul {
     list-style-type: none;
     padding: 0;
@@ -33,6 +27,10 @@ nav ul {
     display: flex;
     justify-content: center; /* Centre les éléments du menu */
     gap: 30px;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 nav ul li {
@@ -40,9 +38,10 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
+    color: #003366;
     text-decoration: none;
     font-size: 1.2em;
+    font-weight: 500;
 }
 
 nav ul li a:hover {
@@ -50,17 +49,19 @@ nav ul li a:hover {
     color: #ff6347;
 }
 
-/* Reste des sections */
+/* Hero Section */
 .hero {
     background-color: #a0c4ff;
     color: white;
     text-align: center;
     padding: 100px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero h2 {
     font-size: 3.5em;
     font-weight: 700;
+    margin-bottom: 15px;
 }
 
 .hero p {
@@ -84,39 +85,64 @@ nav ul li a:hover {
     transform: scale(1.05);
 }
 
-/* Autres sections (événement, bulletin, localisation) */
-.evenement, .bulletin, .localisation {
-    padding: 40px 20px;
-    text-align: center;
-    background-color: #ffffff;
-    margin-top: 20px;
+/* Section container (rectangles autour des sections) */
+.section-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.evenement h2, .bulletin h2 {
+/* Sections (Événement, Bulletin, Qui sommes-nous, etc.) */
+.evenement h2, .bulletin h2, .carrousel h2, .localisation h2 {
+    font-size: 2.5em;
+    color: #003366;
+    margin-bottom: 20px;
+}
+
+.evenement-content, .bulletin-content, .qui-sommes-nous-content, .carrousel-content {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+/* Section "Carte et Qui sommes-nous" */
+.carte-qui-sommes-nous {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 40px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.map-container {
+    width: 48%;  /* Réduit la taille de la carte */
+}
+
+.qui-sommes-nous-content {
+    width: 48%;
+    text-align: left;
+}
+
+.qui-sommes-nous-content h2 {
     font-size: 2.5em;
     margin-bottom: 20px;
 }
 
-.evenement-content, .bulletin-content {
+.qui-sommes-nous-content p {
     font-size: 1.2em;
+    line-height: 1.6;
 }
 
-.map-container iframe {
-    width: 100%;
-    height: 450px;
-    border: none;
-}
-
-.contact-info {
-    font-size: 1.2em;
-    margin-top: 20px;
-}
-
+/* Footer */
 footer {
     text-align: center;
     padding: 20px;
     background-color: #a0c4ff;
     color: white;
-    font-size: 1em;
+    font-size
 }
