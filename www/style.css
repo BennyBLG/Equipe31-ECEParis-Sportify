@@ -7,7 +7,7 @@ body {
     color: #333;
 }
 
-/* Rectangle supérieur sans titre */
+/* Rectangle supérieur */
 .top-bar {
     background-color: #a0c4ff; /* Bleu pastel */
     padding: 20px 0;
@@ -17,6 +17,12 @@ body {
 .header-container {
     width: 100%;
     text-align: center;
+}
+
+.center-title {
+    font-size: 3em;
+    color: white;
+    margin: 0;
 }
 
 /* Menu avec effet design */
@@ -144,5 +150,6 @@ footer {
     padding: 20px;
     background-color: #a0c4ff;
     color: white;
-    font-size
+    font-size: 1.2em;  /* Augmentation de la taille de la police pour le footer */
+    margin-top: 20px;
 }
