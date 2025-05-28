@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="evenement-image">
-                <img src="images/stade_l.jpg" alt="Événement de la semaine" class="evenement-img">
+                <img src="media/images/stade_l.jpg" alt="Événement de la semaine" class="evenement-img" width="500" height="350" style="border:0;" >
             </div>
         </div>
     </section>
@@ -53,7 +53,12 @@
     <section class="qui-sommes-nous">
         <div class="section-container">
             <h2>Qui sommes-nous ?</h2>
-            <p>Sportify est une plateforme innovante dédiée à la consultation sportive en ligne. Nous proposons des coachs professionnels, des événements sportifs, et des services adaptés à chaque utilisateur. Notre mission est de rendre le sport accessible et motivant pour tous.</p>
+            <p>Sportify est une plateforme innovante qui révolutionne l'accès au sport en ligne. Nous offrons une expérience personnalisée, où chaque utilisateur peut trouver un coach spécialisé, suivre des événements sportifs en direct, et bénéficier de conseils adaptés à ses besoins et à son niveau.
+
+Que vous soyez un débutant souhaitant améliorer sa condition physique ou un sportif confirmé cherchant à perfectionner sa technique, Sportify met à votre disposition une équipe de coachs professionnels, experts dans divers domaines du sport, prêts à vous accompagner tout au long de votre parcours.</p>
+            <p>Au-delà de la simple consultation sportive, Sportify propose également une variété d'événements sportifs en ligne et en personne, créant ainsi une véritable communauté d'amateurs et de passionnés de sport. Notre objectif est de rendre le sport accessible à tous, sans distinction, tout en cultivant la motivation et la persévérance nécessaires pour atteindre vos objectifs.
+
+Nous croyons que le sport doit être un levier d’épanouissement personnel et un moyen de créer des liens. C’est pourquoi nous nous engageons à offrir une plateforme conviviale, dynamique et inclusive, où chaque utilisateur, qu’il soit chez lui ou sur le terrain, peut se dépasser, se divertir et réussir.</p>
         </div>
     </section>
 
