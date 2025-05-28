@@ -3,46 +3,51 @@ body {
     font-family: 'Lato', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f8ff; /* Bleu pastel doux */
+    background-color: #f0f8ff;
     color: #333;
 }
 
-h2, h3 {
-    color: #003366;  /* Bleu foncé pour les titres */
-}
-
-/* Header */
-header {
-    background-color: #a0c4ff; /* Bleu pastel pour la section header */
-    padding: 20px;
-    text-align: center;
+/* Rectangle supérieur */
+.top-bar {
+    background-color: #a0c4ff; /* Bleu pastel */
+    padding: 20px 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-header h1 {
-    font-size: 3em;
+.header-container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-container h1 {
+    font-size: 2.5em;
     color: white;
     margin: 0;
 }
 
-header nav ul {
+nav ul {
     list-style-type: none;
     padding: 0;
-    margin: 20px 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
 }
 
-header nav ul li {
+nav ul li {
     display: inline;
-    margin: 0 15px;
 }
 
-header nav ul li a {
+nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 1.2em;
 }
 
-header nav ul li a:hover {
+nav ul li a:hover {
     text-decoration: underline;
     color: #ff6347;  /* Change color on hover */
 }
@@ -81,7 +86,7 @@ header nav ul li a:hover {
     transform: scale(1.05);  /* Subtle scaling effect on hover */
 }
 
-/* Événement de la semaine */
+/* Événement de la semaine et Bulletin */
 .evenement, .bulletin {
     padding: 40px 20px;
     text-align: center;
@@ -97,37 +102,6 @@ header nav ul li a:hover {
 
 .evenement-content, .bulletin-content {
     font-size: 1.2em;
-}
-
-/* Carrousel des coachs */
-.carrousel {
-    text-align: center;
-    padding: 60px 20px;
-    background-color: #e8f7ff; /* Light pastel blue */
-}
-
-.carrousel h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-.carousel-images {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    transition: all 0.5s ease-in-out;
-}
-
-.carousel-images img {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.carousel-images img:hover {
-    transform: scale(1.1);  /* Image zoom effect on hover */
 }
 
 /* Google Map et localisation */

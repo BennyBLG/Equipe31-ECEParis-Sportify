@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,8 +8,8 @@
 </head>
 <body>
 
-    <!-- Header avec navigation -->
-    <header>
+    <!-- Rectangle supérieur avec menu aligné -->
+    <div class="top-bar">
         <div class="header-container">
             <h1>Sportify</h1>
             <nav>
@@ -23,7 +22,7 @@
                 </ul>
             </nav>
         </div>
-    </header>
+    </div>
 
     <!-- Section d'introduction et slogan -->
     <section class="hero">
