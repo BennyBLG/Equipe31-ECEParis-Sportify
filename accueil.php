@@ -12,3 +12,16 @@
 <body>
     <!-- Header avec navigation -->
     <header>
+        <div class="header-container">
+            <h1>Sportify</h1>
+            <nav>
+                <ul>
+                    <li><a href="accueil.php">Accueil</a></li>
+                    <li><a href="tout_parcourir.php">Tout Parcourir</a></li>
+                    <li><a href="recherche.php">Recherche</a></li>
+                    <li><a href="rendez_vous.php">Rendez-vous</a></li>
+                    <li><a href="votre_compte.php">Votre Compte</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
