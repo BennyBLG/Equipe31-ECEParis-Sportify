@@ -1,92 +1,105 @@
 /* Style global */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Lato', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f0f8ff;
     color: #333;
 }
 
-/* Header */
-header {
-    background-color: #a0c4ff;
-    padding: 20px;
-    text-align: center;
+/* Rectangle supérieur */
+.top-bar {
+    background-color: #a0c4ff; /* Bleu pastel */
+    padding: 20px 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-header h1 {
-    font-size: 2.5em;
-    margin: 0;
-    color: white;
+.header-container {
+    width: 100%;
+    text-align: center;  /* Centre le contenu */
 }
 
-header nav ul {
+.center-title {
+    font-size: 3em;
+    color: white;
+    margin: 0;
+}
+
+/* Menu */
+nav ul {
     list-style-type: none;
     padding: 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center; /* Centre les éléments du menu */
+    gap: 30px;
 }
 
-header nav ul li {
+nav ul li {
     display: inline;
-    margin: 0 15px;
 }
 
-header nav ul li a {
+nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 1.2em;
 }
 
-header nav ul li a:hover {
+nav ul li a:hover {
     text-decoration: underline;
+    color: #ff6347;
 }
 
-/* Carrousel des coachs */
-.carrousel {
+/* Reste des sections */
+.hero {
+    background-color: #a0c4ff;
+    color: white;
     text-align: center;
-    padding: 40px 20px;
-    background-color: #ffffff;
+    padding: 100px 20px;
 }
 
-.carrousel h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
+.hero h2 {
+    font-size: 3.5em;
+    font-weight: 700;
 }
 
-.carousel-images {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
+.hero p {
+    font-size: 1.8em;
+    margin-top: 15px;
 }
 
-.carousel-images img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/* Bulletin sportif */
-.bulletin {
-    text-align: center;
-    padding: 30px 20px;
-    background-color: #e8f7ff;
-}
-
-.bulletin h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-.bulletin-content {
+.hero .btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
     font-size: 1.2em;
+    transition: all 0.3s ease;
 }
 
-/* Localisation et contact */
-.localisation {
+.hero .btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Autres sections (événement, bulletin, localisation) */
+.evenement, .bulletin, .localisation {
     padding: 40px 20px;
-    background-color: white;
     text-align: center;
+    background-color: #ffffff;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.evenement h2, .bulletin h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.evenement-content, .bulletin-content {
+    font-size: 1.2em;
 }
 
 .map-container iframe {
@@ -98,4 +111,12 @@ header nav ul li a:hover {
 .contact-info {
     font-size: 1.2em;
     margin-top: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #a0c4ff;
+    color: white;
+    font-size: 1em;
 }

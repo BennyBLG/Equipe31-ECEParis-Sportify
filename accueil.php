@@ -1,6 +1,3 @@
-<?php include('config.php'); ?>
-<?php include('includes/header.php'); ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,10 +7,11 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Header avec navigation -->
-    <header>
+
+    <!-- Rectangle supérieur avec menu aligné -->
+    <div class="top-bar">
         <div class="header-container">
-            <h1>Sportify</h1>
+            <h1 class="center-title">Sportify</h1>
             <nav>
                 <ul>
                     <li><a href="accueil.php">Accueil</a></li>
@@ -24,32 +22,41 @@
                 </ul>
             </nav>
         </div>
-    </header>
-     <!-- Carrousel des coachs du mois -->
-    <section class="carrousel">
-        <h2>Nos Coachs du Mois</h2>
-        <div class="carousel-images">
-            <img src="images/coach1.jpg" alt="Coach 1">
-            <img src="images/coach2.jpg" alt="Coach 2">
-            <!-- Ajouter d'autres coachs -->
+    </div>
+
+    <!-- Reste de la page -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Bienvenue sur Sportify</h2>
+            <p>Votre coach, votre rythme, votre succès</p>
+            <a href="#parcourir" class="btn">Découvrez nos services</a>
         </div>
     </section>
 
-    <!-- Bulletin sportif de la semaine -->
-    <section class="bulletin">
-        <h2>Événement de la Semaine</h2>
-        <div class="bulletin-content">
+    <!-- Section Événement de la semaine -->
+    <section class="evenement">
+        <h2>Événement de la semaine</h2>
+        <div class="evenement-content">
             <p><strong>Match de Rugby</strong> - Omnes Education vs. Visiteurs</p>
             <p><strong>Date :</strong> 25 Juin 2025</p>
             <p><strong>Lieu :</strong> Stade Omnes, Paris</p>
         </div>
     </section>
 
-    <!-- Google Map et coordonnées du centre Sportify -->
+    <!-- Section Bulletin Sportif de la semaine -->
+    <section class="bulletin">
+        <h2>Bulletin sportif de la semaine</h2>
+        <div class="bulletin-content">
+            <p><strong>Championnat universitaire</strong> : Résultats des dernières compétitions !</p>
+            <p>Les étudiants de Sportify ont brillé dans les dernières épreuves de natation et de tennis. Découvrez toutes les nouvelles !</p>
+        </div>
+    </section>
+
+    <!-- Section Google Map et coordonnées -->
     <section class="localisation">
-        <h2>Nous Trouver</h2>
+        <h2>Nous trouver</h2>
         <div class="map-container">
-            <!-- Intégration de Google Map -->
+            <!-- Google Map Embed -->
             <iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <div class="contact-info">
@@ -60,8 +67,13 @@
         </div>
     </section>
 
-    <?php include('includes/footer.php'); ?>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Sportify - Tous droits réservés</p>
+    </footer>
+
     <script src="js/script.js"></script>
+
 </body>
 </html>
 
