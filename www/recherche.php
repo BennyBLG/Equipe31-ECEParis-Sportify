@@ -307,9 +307,9 @@ if (isset($_GET['recherche']) && !empty($_GET['recherche'])) {
                         <?php if ($resultat['type'] == 'coach'): ?>
                             <div class="result-card coach-result <?php echo $index < 3 ? 'result-highlight' : ''; ?>">
                                 <div class="result-image">
-                                    <img src="media/images/<?php echo $resultat['data']['photo']; ?>" 
+                                    <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($resultat['data']['prenom'] . '+' . $resultat['data']['nom']); ?>&size=150&background=<?php echo $resultat['data']['specialite'] == 'Musculation' ? 'FF6B6B' : ($resultat['data']['specialite'] == 'Fitness' ? '4ECDC4' : ($resultat['data']['specialite'] == 'Tennis' ? '45B7D1' : ($resultat['data']['specialite'] == 'Cardio-Training' ? 'F093FB' : '4568DC'))); ?>&color=ffffff&font-size=0.4&bold=true" 
                                          alt="<?php echo $resultat['data']['prenom'] . ' ' . $resultat['data']['nom']; ?>"
-                                         onerror="this.src='https://via.placeholder.com/150x150/007BFF/ffffff?text=Coach'">
+                                         onerror="this.src='https://via.placeholder.com/150x150/007BFF/ffffff?text=Coach'"
                                     <?php if ($resultat['data']['disponible']): ?>
                                         <div class="availability-indicator available">🟢</div>
                                     <?php else: ?>

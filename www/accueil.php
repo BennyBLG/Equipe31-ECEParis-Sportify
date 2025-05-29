@@ -5,6 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - Sportify</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles améliorés pour les images */
+        .coach-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .coach-image img:hover {
+            transform: scale(1.05);
+        }
+        
+        .coach-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .coach-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .evenement-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        .responsive-img {
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -47,8 +92,10 @@
                     </div>
                 </div>
                 <div class="evenement-image">
-                    <img src="media/images/stade_l.jpg" alt="Événement de la semaine" 
-                         class="responsive-img" onerror="this.style.display='none'">
+                    <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&h=300&fit=crop&crop=center" 
+                         alt="Événement de la semaine - Match de Rugby" 
+                         class="responsive-img" 
+                         onerror="this.src='https://via.placeholder.com/600x300/007BFF/ffffff?text=Événement+Rugby'">
                 </div>
             </div>
         </div>
@@ -109,37 +156,66 @@
                     <div class="carousel-track">
                         <div class="coach-card">
                             <div class="coach-image">
-                                <img src="media/images/coach1.jpg" alt="Guy DUMAIS" 
-                                     onerror="this.src='https://via.placeholder.com/280x200/007BFF/ffffff?text=Coach+1'">
+                                <img src="https://ui-avatars.com/api/?name=Guy+DUMAIS&size=280&background=FF6B6B&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Guy DUMAIS" 
+                                     onerror="this.src='https://via.placeholder.com/280x200/FF6B6B/ffffff?text=Guy+DUMAIS'">
                             </div>
                             <div class="coach-info">
                                 <h4>Guy DUMAIS</h4>
-                                <p>Musculation</p>
-                                <a href="#" class="btn btn-secondary">Voir profil</a>
+                                <p>💪 Musculation</p>
+                                <a href="coach_detail.php?id=1" class="btn btn-secondary">Voir profil</a>
                             </div>
                         </div>
                         
                         <div class="coach-card">
                             <div class="coach-image">
-                                <img src="media/images/coach2.jpg" alt="Marie MARTIN" 
-                                     onerror="this.src='https://via.placeholder.com/280x200/007BFF/ffffff?text=Coach+2'">
+                                <img src="https://ui-avatars.com/api/?name=Marie+MARTIN&size=280&background=4ECDC4&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Marie MARTIN" 
+                                     onerror="this.src='https://via.placeholder.com/280x200/4ECDC4/ffffff?text=Marie+MARTIN'">
                             </div>
                             <div class="coach-info">
                                 <h4>Marie MARTIN</h4>
-                                <p>Fitness</p>
-                                <a href="#" class="btn btn-secondary">Voir profil</a>
+                                <p>🏃‍♀️ Fitness</p>
+                                <a href="coach_detail.php?id=2" class="btn btn-secondary">Voir profil</a>
                             </div>
                         </div>
                         
                         <div class="coach-card">
                             <div class="coach-image">
-                                <img src="media/images/coach3.jpg" alt="Paul BERNARD" 
-                                     onerror="this.src='https://via.placeholder.com/280x200/007BFF/ffffff?text=Coach+3'">
+                                <img src="https://ui-avatars.com/api/?name=Paul+BERNARD&size=280&background=45B7D1&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Paul BERNARD" 
+                                     onerror="this.src='https://via.placeholder.com/280x200/45B7D1/ffffff?text=Paul+BERNARD'">
                             </div>
                             <div class="coach-info">
                                 <h4>Paul BERNARD</h4>
-                                <p>Tennis</p>
-                                <a href="#" class="btn btn-secondary">Voir profil</a>
+                                <p>🎾 Tennis</p>
+                                <a href="coach_detail.php?id=3" class="btn btn-secondary">Voir profil</a>
+                            </div>
+                        </div>
+
+                        <div class="coach-card">
+                            <div class="coach-image">
+                                <img src="https://ui-avatars.com/api/?name=Sophie+DUBOIS&size=280&background=F093FB&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Sophie DUBOIS" 
+                                     onerror="this.src='https://via.placeholder.com/280x200/F093FB/ffffff?text=Sophie+DUBOIS'">
+                            </div>
+                            <div class="coach-info">
+                                <h4>Sophie DUBOIS</h4>
+                                <p>❤️ Cardio-Training</p>
+                                <a href="coach_detail.php?id=4" class="btn btn-secondary">Voir profil</a>
+                            </div>
+                        </div>
+
+                        <div class="coach-card">
+                            <div class="coach-image">
+                                <img src="https://ui-avatars.com/api/?name=Jean+MOREAU&size=280&background=4568DC&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Jean MOREAU" 
+                                     onerror="this.src='https://via.placeholder.com/280x200/4568DC/ffffff?text=Jean+MOREAU'">
+                            </div>
+                            <div class="coach-info">
+                                <h4>Jean MOREAU</h4>
+                                <p>👥 Cours Collectifs</p>
+                                <a href="coach_detail.php?id=5" class="btn btn-secondary">Voir profil</a>
                             </div>
                         </div>
                     </div>
@@ -190,7 +266,7 @@
     </footer>
 
     <script>
-        // Script pour le carrousel
+        // Script pour le carrousel amélioré
         let currentSlide = 0;
         const slides = document.querySelectorAll('.coach-card');
         const totalSlides = slides.length;
@@ -210,9 +286,19 @@
             track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
         }
 
+        // Auto-play du carrousel
+        setInterval(() => {
+            if (currentSlide < totalSlides - 3) {
+                moveCarousel(1);
+            } else {
+                currentSlide = -1;
+                moveCarousel(1);
+            }
+        }, 4000);
+
         // Animation au scroll
         window.addEventListener('scroll', () => {
-            const elements = document.querySelectorAll('.bulletin-item, .coach-card');
+            const elements = document.querySelectorAll('.bulletin-item, .coach-card, .evenement');
             elements.forEach(element => {
                 const elementTop = element.getBoundingClientRect().top;
                 const elementVisible = 150;
@@ -221,6 +307,15 @@
                     element.classList.add('animate-fade-in');
                 }
             });
+        });
+
+        // Effet de parallaxe léger pour le hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
         });
     </script>
 </body>

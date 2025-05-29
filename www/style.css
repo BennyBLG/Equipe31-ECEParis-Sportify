@@ -1904,3 +1904,562 @@ mark {
         padding: 25px 15px;
     }
 }
+
+/* =============================================
+   SPORTIFY - CSS AMÉLIORÉ AVEC IMAGES
+   ============================================= */
+
+/* Variables CSS pour une cohérence visuelle */
+:root {
+    --primary-color: #007BFF;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    
+    --musculation-color: #FF6B6B;
+    --fitness-color: #4ECDC4;
+    --tennis-color: #45B7D1;
+    --cardio-color: #F093FB;
+    --collectifs-color: #4568DC;
+    
+    --border-radius: 15px;
+    --box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Reset et base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #ffffff;
+}
+
+/* =============================================
+   STYLES POUR LES IMAGES
+   ============================================= */
+
+/* Images générales */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Images avec effet de zoom au hover */
+.zoom-hover {
+    transition: var(--transition);
+    overflow: hidden;
+    border-radius: var(--border-radius);
+}
+
+.zoom-hover:hover {
+    transform: scale(1.05);
+}
+
+/* Conteneurs d'images */
+.image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0,0,0,0.1), transparent);
+    z-index: 1;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.image-container:hover::before {
+    opacity: 1;
+}
+
+/* =============================================
+   AVATARS ET PROFILS COACHS
+   ============================================= */
+
+/* Avatars circulaires */
+.coach-avatar, .client-avatar, .user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: var(--transition);
+}
+
+.coach-avatar:hover, .client-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+}
+
+.coach-avatar img, .client-avatar img, .user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Avatars de tailles différentes */
+.avatar-small { width: 40px; height: 40px; }
+.avatar-medium { width: 60px; height: 60px; }
+.avatar-large { width: 80px; height: 80px; }
+.avatar-xl { width: 120px; height: 120px; }
+
+/* Indicateurs de statut sur les avatars */
+.avatar-status {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    z-index: 2;
+}
+
+.avatar-status.online { background-color: var(--success-color); }
+.avatar-status.busy { background-color: var(--danger-color); }
+.avatar-status.away { background-color: var(--warning-color); }
+
+/* =============================================
+   CARTES ET CONTENEURS
+   ============================================= */
+
+/* Cartes de base */
+.card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* Cartes de coachs */
+.coach-card {
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    position: relative;
+}
+
+.coach-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--musculation-color), var(--fitness-color), var(--tennis-color));
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.coach-card:hover::before {
+    opacity: 1;
+}
+
+.coach-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Images des cartes d'activités */
+.activity-image, .sport-image {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+}
+
+.activity-image img, .sport-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.activity-image:hover img, .sport-image:hover img {
+    transform: scale(1.1);
+}
+
+/* Overlay sur les images */
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.activity-image:hover .image-overlay,
+.sport-image:hover .image-overlay {
+    opacity: 1;
+}
+
+/* =============================================
+   BOUTONS ET INTERACTIONS
+   ============================================= */
+
+/* Boutons de base */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #0056b3);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, var(--primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-sm { padding: 8px 16px; font-size: 12px; }
+.btn-lg { padding: 16px 32px; font-size: 16px; }
+
+/* =============================================
+   CARROUSEL AMÉLIORÉ
+   ============================================= */
+
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 20px;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.carousel-btn:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-prev { left: 20px; }
+.carousel-next { right: 20px; }
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+
+/* Animation de fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+/* Animation de pulse pour les notifications */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 1s ease-in-out;
+}
+
+/* Animation de slide-in */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in-left { animation: slideInLeft 0.6s ease forwards; }
+.slide-in-right { animation: slideInRight 0.6s ease forwards; }
+
+/* =============================================
+   RESPONSIVE DESIGN
+   ============================================= */
+
+/* Tablettes */
+@media (max-width: 768px) {
+    .coach-avatar, .client-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .activity-image, .sport-image {
+        height: 150px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
+
+/* Mobiles */
+@media (max-width: 480px) {
+    .coach-avatar, .client-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .activity-image, .sport-image {
+        height: 120px;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}
+
+/* =============================================
+   BADGES ET STATUTS
+   ============================================= */
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-success {
+    background: var(--success-color);
+    color: white;
+}
+
+.badge-warning {
+    background: var(--warning-color);
+    color: var(--dark-color);
+}
+
+.badge-danger {
+    background: var(--danger-color);
+    color: white;
+}
+
+.badge-info {
+    background: var(--info-color);
+    color: white;
+}
+
+/* =============================================
+   LOADING STATES
+   ============================================= */
+
+.loading-placeholder {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: var(--border-radius);
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Skeleton pour les images */
+.image-skeleton {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: var(--border-radius);
+}
+
+/* =============================================
+   UTILITAIRES
+   ============================================= */
+
+/* Ombres personnalisées */
+.shadow-sm { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.shadow-md { box-shadow: var(--box-shadow); }
+.shadow-lg { box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+.shadow-xl { box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+
+/* Coins arrondis */
+.rounded-sm { border-radius: 5px; }
+.rounded-md { border-radius: 10px; }
+.rounded-lg { border-radius: var(--border-radius); }
+.rounded-xl { border-radius: 25px; }
+.rounded-full { border-radius: 50%; }
+
+/* Transitions */
+.transition-fast { transition: all 0.15s ease; }
+.transition-normal { transition: var(--transition); }
+.transition-slow { transition: all 0.5s ease; }
+
+/* Curseurs */
+.cursor-pointer { cursor: pointer; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+/* Visibilité */
+.visible { opacity: 1; visibility: visible; }
+.invisible { opacity: 0; visibility: hidden; }
+.hidden { display: none; }
+
+/* Centrage */
+.center { display: flex; align-items: center; justify-content: center; }
+.center-x { display: flex; justify-content: center; }
+.center-y { display: flex; align-items: center; }
+
+/* =============================================
+   THÈME SOMBRE (OPTIONNEL)
+   ============================================= */
+
+.dark-theme {
+    --primary-color: #1e90ff;
+    --light-color: #2c3e50;
+    --dark-color: #ecf0f1;
+    background-color: #1a1a1a;
+    color: #ecf0f1;
+}
+
+.dark-theme .card {
+    background: #2c3e50;
+    color: #ecf0f1;
+}
+
+.dark-theme .btn-outline {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.dark-theme .btn-outline:hover {
+    background: var(--primary-color);
+    color: white;
+}

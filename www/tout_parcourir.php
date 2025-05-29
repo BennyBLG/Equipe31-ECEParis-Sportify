@@ -5,6 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tout Parcourir - Sportify</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styles améliorés pour les images d'activités */
+        .activity-image img, .sport-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .activity-card:hover .activity-image img,
+        .sport-card:hover .sport-image img {
+            transform: scale(1.05);
+        }
+        
+        .activity-card, .sport-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .activity-card:hover, .sport-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .coach-avatar img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .hero-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -76,8 +133,9 @@
             <div class="activities-grid">
                 <div class="activity-card">
                     <div class="activity-image">
-                        <img src="media/images/musculation.jpg" alt="Musculation"
-                             onerror="this.src='https://via.placeholder.com/350x200/007BFF/ffffff?text=Musculation'">
+                        <img src="https://images.unsplash.com/photo-1571019613540-996a58b31c02?w=350&h=200&fit=crop&crop=center" 
+                             alt="Musculation"
+                             onerror="this.src='https://via.placeholder.com/350x200/FF6B6B/ffffff?text=💪+Musculation'">
                     </div>
                     <div class="activity-content">
                         <h3>Musculation</h3>
@@ -86,8 +144,9 @@
                         </p>
                         <div class="coach-preview">
                             <div class="coach-avatar">
-                                <img src="media/images/coach-guy.jpg" alt="Guy DUMAIS"
-                                     onerror="this.src='https://via.placeholder.com/50x50/007BFF/ffffff?text=GD'">
+                                <img src="https://ui-avatars.com/api/?name=Guy+DUMAIS&size=50&background=FF6B6B&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Guy DUMAIS"
+                                     onerror="this.src='https://via.placeholder.com/50x50/FF6B6B/ffffff?text=GD'">
                             </div>
                             <div class="coach-info">
                                 <p class="coach-name">Guy DUMAIS</p>
@@ -95,16 +154,17 @@
                             </div>
                         </div>
                         <div class="activity-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">Réserver</a>
+                            <a href="coach_detail.php?id=1" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=1" class="btn btn-outline">Réserver</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="activity-card">
                     <div class="activity-image">
-                        <img src="media/images/fitness.jpg" alt="Fitness"
-                             onerror="this.src='https://via.placeholder.com/350x200/007BFF/ffffff?text=Fitness'">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=350&h=200&fit=crop&crop=center" 
+                             alt="Fitness"
+                             onerror="this.src='https://via.placeholder.com/350x200/4ECDC4/ffffff?text=🏃‍♀️+Fitness'">
                     </div>
                     <div class="activity-content">
                         <h3>Fitness</h3>
@@ -113,8 +173,9 @@
                         </p>
                         <div class="coach-preview">
                             <div class="coach-avatar">
-                                <img src="media/images/coach-marie.jpg" alt="Marie MARTIN"
-                                     onerror="this.src='https://via.placeholder.com/50x50/007BFF/ffffff?text=MM'">
+                                <img src="https://ui-avatars.com/api/?name=Marie+MARTIN&size=50&background=4ECDC4&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Marie MARTIN"
+                                     onerror="this.src='https://via.placeholder.com/50x50/4ECDC4/ffffff?text=MM'">
                             </div>
                             <div class="coach-info">
                                 <p class="coach-name">Marie MARTIN</p>
@@ -122,16 +183,17 @@
                             </div>
                         </div>
                         <div class="activity-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">Réserver</a>
+                            <a href="coach_detail.php?id=2" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=2" class="btn btn-outline">Réserver</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="activity-card">
                     <div class="activity-image">
-                        <img src="media/images/biking.jpg" alt="Biking"
-                             onerror="this.src='https://via.placeholder.com/350x200/007BFF/ffffff?text=Biking'">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=350&h=200&fit=crop&crop=center" 
+                             alt="Biking"
+                             onerror="this.src='https://via.placeholder.com/350x200/45B7D1/ffffff?text=🚴‍♂️+Biking'">
                     </div>
                     <div class="activity-content">
                         <h3>Biking</h3>
@@ -140,8 +202,9 @@
                         </p>
                         <div class="coach-preview">
                             <div class="coach-avatar">
-                                <img src="media/images/coach-paul.jpg" alt="Paul BERNARD"
-                                     onerror="this.src='https://via.placeholder.com/50x50/007BFF/ffffff?text=PB'">
+                                <img src="https://ui-avatars.com/api/?name=Paul+BERNARD&size=50&background=45B7D1&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Paul BERNARD"
+                                     onerror="this.src='https://via.placeholder.com/50x50/45B7D1/ffffff?text=PB'">
                             </div>
                             <div class="coach-info">
                                 <p class="coach-name">Paul BERNARD</p>
@@ -149,16 +212,17 @@
                             </div>
                         </div>
                         <div class="activity-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">Réserver</a>
+                            <a href="coach_detail.php?id=3" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=3" class="btn btn-outline">Réserver</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="activity-card">
                     <div class="activity-image">
-                        <img src="media/images/cardio.jpg" alt="Cardio-Training"
-                             onerror="this.src='https://via.placeholder.com/350x200/007BFF/ffffff?text=Cardio'">
+                        <img src="https://images.unsplash.com/photo-1571019613540-996a58b31c02?w=350&h=200&fit=crop&crop=center" 
+                             alt="Cardio-Training"
+                             onerror="this.src='https://via.placeholder.com/350x200/F093FB/ffffff?text=❤️+Cardio'">
                     </div>
                     <div class="activity-content">
                         <h3>Cardio-Training</h3>
@@ -167,8 +231,9 @@
                         </p>
                         <div class="coach-preview">
                             <div class="coach-avatar">
-                                <img src="media/images/coach-sophie.jpg" alt="Sophie DUBOIS"
-                                     onerror="this.src='https://via.placeholder.com/50x50/007BFF/ffffff?text=SD'">
+                                <img src="https://ui-avatars.com/api/?name=Sophie+DUBOIS&size=50&background=F093FB&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Sophie DUBOIS"
+                                     onerror="this.src='https://via.placeholder.com/50x50/F093FB/ffffff?text=SD'">
                             </div>
                             <div class="coach-info">
                                 <p class="coach-name">Sophie DUBOIS</p>
@@ -176,16 +241,17 @@
                             </div>
                         </div>
                         <div class="activity-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">Réserver</a>
+                            <a href="coach_detail.php?id=4" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=4" class="btn btn-outline">Réserver</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="activity-card">
                     <div class="activity-image">
-                        <img src="media/images/cours-collectifs.jpg" alt="Cours Collectifs"
-                             onerror="this.src='https://via.placeholder.com/350x200/007BFF/ffffff?text=Cours+Collectifs'">
+                        <img src="https://images.unsplash.com/photo-1549576490-b0b4831ef60a?w=350&h=200&fit=crop&crop=center" 
+                             alt="Cours Collectifs"
+                             onerror="this.src='https://via.placeholder.com/350x200/4568DC/ffffff?text=👥+Cours+Collectifs'">
                     </div>
                     <div class="activity-content">
                         <h3>Cours Collectifs</h3>
@@ -194,8 +260,9 @@
                         </p>
                         <div class="coach-preview">
                             <div class="coach-avatar">
-                                <img src="media/images/coach-jean.jpg" alt="Jean MOREAU"
-                                     onerror="this.src='https://via.placeholder.com/50x50/007BFF/ffffff?text=JM'">
+                                <img src="https://ui-avatars.com/api/?name=Jean+MOREAU&size=50&background=4568DC&color=ffffff&font-size=0.4&bold=true" 
+                                     alt="Jean MOREAU"
+                                     onerror="this.src='https://via.placeholder.com/50x50/4568DC/ffffff?text=JM'">
                             </div>
                             <div class="coach-info">
                                 <p class="coach-name">Jean MOREAU</p>
@@ -203,8 +270,8 @@
                             </div>
                         </div>
                         <div class="activity-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">Réserver</a>
+                            <a href="coach_detail.php?id=5" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=5" class="btn btn-outline">Réserver</a>
                         </div>
                     </div>
                 </div>
@@ -223,8 +290,9 @@
             <div class="sports-grid">
                 <div class="sport-card">
                     <div class="sport-image">
-                        <img src="media/images/basketball.jpg" alt="Basketball"
-                             onerror="this.src='https://via.placeholder.com/300x180/007BFF/ffffff?text=Basketball'">
+                        <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=300&h=180&fit=crop&crop=center" 
+                             alt="Basketball"
+                             onerror="this.src='https://via.placeholder.com/300x180/FF9A9E/ffffff?text=🏀+Basketball'">
                         <div class="sport-overlay">
                             <h3>Basketball</h3>
                         </div>
@@ -235,16 +303,17 @@
                             <p>Entraîneur professionnel de basketball</p>
                         </div>
                         <div class="sport-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">S'inscrire</a>
+                            <a href="coach_detail.php?id=6" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=6" class="btn btn-outline">S'inscrire</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="sport-card">
                     <div class="sport-image">
-                        <img src="media/images/football.jpg" alt="Football"
-                             onerror="this.src='https://via.placeholder.com/300x180/007BFF/ffffff?text=Football'">
+                        <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=300&h=180&fit=crop&crop=center" 
+                             alt="Football"
+                             onerror="this.src='https://via.placeholder.com/300x180/A8EDEA/ffffff?text=⚽+Football'">
                         <div class="sport-overlay">
                             <h3>Football</h3>
                         </div>
@@ -255,16 +324,17 @@
                             <p>Entraîneur de football compétitif</p>
                         </div>
                         <div class="sport-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">S'inscrire</a>
+                            <a href="coach_detail.php?id=7" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=7" class="btn btn-outline">S'inscrire</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="sport-card">
                     <div class="sport-image">
-                        <img src="media/images/rugby.jpg" alt="Rugby"
-                             onerror="this.src='https://via.placeholder.com/300x180/007BFF/ffffff?text=Rugby'">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=180&fit=crop&crop=center" 
+                             alt="Rugby"
+                             onerror="this.src='https://via.placeholder.com/300x180/D299C2/ffffff?text=🏉+Rugby'">
                         <div class="sport-overlay">
                             <h3>Rugby</h3>
                         </div>
@@ -275,16 +345,17 @@
                             <p>Spécialiste rugby de haut niveau</p>
                         </div>
                         <div class="sport-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">S'inscrire</a>
+                            <a href="coach_detail.php?id=8" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=8" class="btn btn-outline">S'inscrire</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="sport-card">
                     <div class="sport-image">
-                        <img src="media/images/tennis.jpg" alt="Tennis"
-                             onerror="this.src='https://via.placeholder.com/300x180/007BFF/ffffff?text=Tennis'">
+                        <img src="https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=300&h=180&fit=crop&crop=center" 
+                             alt="Tennis"
+                             onerror="this.src='https://via.placeholder.com/300x180/45B7D1/ffffff?text=🎾+Tennis'">
                         <div class="sport-overlay">
                             <h3>Tennis</h3>
                         </div>
@@ -295,16 +366,17 @@
                             <p>Professeure de tennis certifiée</p>
                         </div>
                         <div class="sport-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">S'inscrire</a>
+                            <a href="coach_detail.php?id=9" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=9" class="btn btn-outline">S'inscrire</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="sport-card">
                     <div class="sport-image">
-                        <img src="media/images/natation.jpg" alt="Natation"
-                             onerror="this.src='https://via.placeholder.com/300x180/007BFF/ffffff?text=Natation'">
+                        <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=300&h=180&fit=crop&crop=center" 
+                             alt="Natation"
+                             onerror="this.src='https://via.placeholder.com/300x180/89F7FE/ffffff?text=🏊‍♂️+Natation'">
                         <div class="sport-overlay">
                             <h3>Natation</h3>
                         </div>
@@ -315,16 +387,17 @@
                             <p>Maître-nageur diplômée d'État</p>
                         </div>
                         <div class="sport-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">S'inscrire</a>
+                            <a href="coach_detail.php?id=10" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=10" class="btn btn-outline">S'inscrire</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="sport-card">
                     <div class="sport-image">
-                        <img src="media/images/plongeon.jpg" alt="Plongeon"
-                             onerror="this.src='https://via.placeholder.com/300x180/007BFF/ffffff?text=Plongeon'">
+                        <img src="https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=300&h=180&fit=crop&crop=center" 
+                             alt="Plongeon"
+                             onerror="this.src='https://via.placeholder.com/300x180/FDBB2D/ffffff?text=🤸‍♂️+Plongeon'">
                         <div class="sport-overlay">
                             <h3>Plongeon</h3>
                         </div>
@@ -335,8 +408,8 @@
                             <p>Spécialiste plongeon artistique</p>
                         </div>
                         <div class="sport-actions">
-                            <a href="#" class="btn btn-primary">Voir le coach</a>
-                            <a href="#" class="btn btn-outline">S'inscrire</a>
+                            <a href="coach_detail.php?id=11" class="btn btn-primary">Voir le coach</a>
+                            <a href="rendez_vous.php?coach=11" class="btn btn-outline">S'inscrire</a>
                         </div>
                     </div>
                 </div>
@@ -399,31 +472,31 @@
                         <div class="service-card">
                             <h4>Personnels de la salle de sport</h4>
                             <p>Équipe qualifiée à votre service</p>
-                            <a href="#" class="btn btn-outline btn-sm">En savoir plus</a>
+                            <a href="service_detail.php?id=2" class="btn btn-outline btn-sm">En savoir plus</a>
                         </div>
                         
                         <div class="service-card">
                             <h4>Horaire de la gym</h4>
                             <p>Consultez nos horaires d'ouverture</p>
-                            <a href="#" class="btn btn-outline btn-sm">En savoir plus</a>
+                            <a href="service_detail.php?id=1" class="btn btn-outline btn-sm">En savoir plus</a>
                         </div>
                         
                         <div class="service-card">
                             <h4>Règles sur l'utilisation des machines</h4>
                             <p>Guide d'utilisation des équipements</p>
-                            <a href="#" class="btn btn-outline btn-sm">En savoir plus</a>
+                            <a href="service_detail.php?id=3" class="btn btn-outline btn-sm">En savoir plus</a>
                         </div>
                         
                         <div class="service-card">
                             <h4>Nouveaux clients</h4>
                             <p>Informations pour les nouveaux membres</p>
-                            <a href="#" class="btn btn-outline btn-sm">En savoir plus</a>
+                            <a href="service_detail.php?id=4" class="btn btn-outline btn-sm">En savoir plus</a>
                         </div>
                         
                         <div class="service-card">
                             <h4>Alimentation et nutrition</h4>
                             <p>Conseils nutritionnels personnalisés</p>
-                            <a href="#" class="btn btn-outline btn-sm">En savoir plus</a>
+                            <a href="service_detail.php?id=5" class="btn btn-outline btn-sm">En savoir plus</a>
                         </div>
                     </div>
                 </div>
@@ -437,7 +510,7 @@
                             <span>✓ Test des équipements</span>
                             <span>✓ Conseil personnalisé</span>
                         </div>
-                        <a href="#" class="btn btn-primary btn-lg">
+                        <a href="rendez_vous.php?service=1" class="btn btn-primary btn-lg">
                             Prendre rendez-vous pour une visite
                         </a>
                     </div>
@@ -453,8 +526,8 @@
                 <h2>Prêt à commencer votre parcours sportif ?</h2>
                 <p>Rejoignez la communauté Sportify et atteignez vos objectifs avec nos coachs professionnels</p>
                 <div class="cta-actions">
-                    <a href="#" class="btn btn-primary btn-lg">S'inscrire maintenant</a>
-                    <a href="#" class="btn btn-outline btn-lg">Nous contacter</a>
+                    <a href="votre_compte.php" class="btn btn-primary btn-lg">S'inscrire maintenant</a>
+                    <a href="mailto:contact@sportify.com" class="btn btn-outline btn-lg">Nous contacter</a>
                 </div>
             </div>
         </div>
@@ -512,6 +585,17 @@
                         block: 'start'
                     });
                 }
+            });
+        });
+
+        // Effet de hover sur les images
+        document.querySelectorAll('.activity-image, .sport-image').forEach(image => {
+            image.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            image.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
             });
         });
     </script>
