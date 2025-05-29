@@ -1,0 +1,16 @@
+La c'est les mots de passe et le email pour se connecter
+
+🛡️ Admin :
+
+Email : admin@sportify.com
+Mot de passe : admin123
+
+🏋️‍♂️ Coach :
+
+Email : guy.dumais@sportify.com
+Mot de passe : coach123
+
+👤 Client :
+
+Email : client@test.com
+Mot de passe : client123

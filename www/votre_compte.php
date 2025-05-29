@@ -1,50 +1,226 @@
 <?php
 session_start();
 
-// Utilisateurs de test (à remplacer par BDD plus tard)
+// Configuration de la base de données (directement dans le fichier)
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'sportify');
+define('DB_USER', 'root');
+define('DB_PASS', ''); // Mot de passe vide pour WAMP par défaut
+
+// Fonction de connexion à la base de données
+function getDBConnection() {
+    try {
+        $pdo = new PDO(
+            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
+            DB_USER,
+            DB_PASS,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ]
+        );
+        return $pdo;
+    } catch (PDOException $e) {
+        // Si la BDD ne fonctionne pas, utiliser les données de test
+        return null;
+    }
+}
+
+// Fonction pour hasher les mots de passe
+function hashPassword($password) {
+    return password_hash($password, PASSWORD_DEFAULT);
+}
+
+// Fonction pour vérifier les mots de passe
+function verifyPassword($password, $hash) {
+    return password_verify($password, $hash);
+}
+
+// Données de test (en cas de problème avec la BDD)
 $users_test = [
-    // Administrateurs
     'admin@sportify.com' => ['password' => 'admin123', 'role' => 'admin', 'nom' => 'ADMINISTRATEUR', 'prenom' => 'Sportify'],
-    
-    // Coachs
     'guy.dumais@sportify.com' => ['password' => 'coach123', 'role' => 'coach', 'nom' => 'DUMAIS', 'prenom' => 'Guy', 'specialite' => 'Musculation'],
     'marie.martin@sportify.com' => ['password' => 'coach123', 'role' => 'coach', 'nom' => 'MARTIN', 'prenom' => 'Marie', 'specialite' => 'Fitness'],
     'paul.bernard@sportify.com' => ['password' => 'coach123', 'role' => 'coach', 'nom' => 'BERNARD', 'prenom' => 'Paul', 'specialite' => 'Tennis'],
-    
-    // Clients
     'client@test.com' => ['password' => 'client123', 'role' => 'client', 'nom' => 'DUPONT', 'prenom' => 'Jean', 'adresse' => '123 Rue Test, Paris', 'carte_etudiant' => 'ETU2025001'],
     'marie.client@test.com' => ['password' => 'client123', 'role' => 'client', 'nom' => 'DURAND', 'prenom' => 'Marie', 'adresse' => '456 Avenue Test, Lyon', 'carte_etudiant' => 'ETU2025002']
 ];
 
 $error_message = '';
 $success_message = '';
+$using_database = false;
 
 // Traitement de la connexion
 if ($_POST && isset($_POST['login'])) {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
     
-    if (isset($users_test[$email]) && $users_test[$email]['password'] === $password) {
-        // Connexion réussie
-        $user = $users_test[$email];
-        $_SESSION['user_logged_in'] = true;
-        $_SESSION['user_info'] = array_merge(['email' => $email], $user);
-        
-        // Redirection selon le rôle
-        switch ($user['role']) {
-            case 'admin':
-                header('Location: dashboard_admin.php');
-                break;
-            case 'coach':
-                header('Location: dashboard_coach.php');
-                break;
-            case 'client':
-                header('Location: dashboard_client.php');
-                break;
+    // Essayer d'abord avec la base de données
+    $pdo = getDBConnection();
+    
+    if ($pdo !== null) {
+        try {
+            // Utiliser la vraie base de données
+            $stmt = $pdo->prepare("SELECT u.*, c.specialite FROM users u 
+                                  LEFT JOIN coachs c ON u.id = c.user_id 
+                                  WHERE u.email = ? AND u.statut = 'actif'");
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+            
+            if ($user && verifyPassword($password, $user['password'])) {
+                // Connexion réussie avec BDD
+                $_SESSION['user_logged_in'] = true;
+                $_SESSION['user_info'] = [
+                    'id' => $user['id'],
+                    'email' => $user['email'],
+                    'role' => $user['role'],
+                    'nom' => $user['nom'],
+                    'prenom' => $user['prenom'],
+                    'telephone' => $user['telephone'],
+                    'specialite' => $user['specialite'] ?? null
+                ];
+                $using_database = true;
+                $success_message = 'Connexion réussie avec la base de données !';
+            } else {
+                $error_message = 'Email ou mot de passe incorrect (BDD).';
+            }
+        } catch (PDOException $e) {
+            // Si erreur BDD, essayer avec les données de test
+            $pdo = null;
         }
-        exit;
-    } else {
-        $error_message = 'Email ou mot de passe incorrect.';
+    }
+    
+    // Si pas de BDD ou erreur, utiliser les données de test
+    if ($pdo === null && !$using_database) {
+        if (isset($users_test[$email]) && $users_test[$email]['password'] === $password) {
+            // Connexion réussie avec données de test
+            $user = $users_test[$email];
+            $_SESSION['user_logged_in'] = true;
+            $_SESSION['user_info'] = array_merge(['email' => $email], $user);
+            $success_message = 'Connexion réussie avec données de test !';
+        } else {
+            $error_message = 'Email ou mot de passe incorrect.';
+        }
+    }
+    
+    // Redirection si connexion réussie
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
+        $user = $_SESSION['user_info'];
+        
+        $redirect_files = [
+            'admin' => 'dashboard_admin.php',
+            'coach' => 'dashboard_coach.php',
+            'client' => 'dashboard_client.php'
+        ];
+        
+        $target_file = $redirect_files[$user['role']];
+        
+        // Vérifier si le fichier existe, sinon créer une page temporaire
+        if (file_exists($target_file)) {
+            header('Location: ' . $target_file);
+            exit;
+        } else {
+            // Créer une page temporaire
+            $temp_content = "<?php
+session_start();
+if (!isset(\$_SESSION['user_logged_in'])) {
+    header('Location: votre_compte.php');
+    exit;
+}
+\$user = \$_SESSION['user_info'];
+?>
+<!DOCTYPE html>
+<html lang='fr'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Dashboard " . ucfirst($user['role']) . " - Sportify</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .user-info { background: #e3f2fd; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .btn { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 5px; }
+        .btn:hover { background: #0056b3; }
+        .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin: 20px 0; }
+        .status { background: " . ($using_database ? '#d4edda' : '#fff3cd') . "; color: " . ($using_database ? '#155724' : '#856404') . "; padding: 10px; border-radius: 4px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1>🎉 Connexion réussie !</h1>
+            <p>Bienvenue sur votre dashboard temporaire</p>
+        </div>
+        
+        <div class='status'>
+            " . ($using_database ? '🗃️ Connecté via la base de données MySQL' : '🧪 Connecté via les données de test') . "
+        </div>
+        
+        <div class='success'>
+            ✅ Vous êtes connecté avec succès en tant que <strong>" . ucfirst($user['role']) . "</strong>
+        </div>
+        
+        <div class='user-info'>
+            <h3>📋 Vos informations :</h3>
+            <p><strong>Nom :</strong> " . htmlspecialchars(\$user['prenom'] . ' ' . \$user['nom']) . "</p>
+            <p><strong>Email :</strong> " . htmlspecialchars(\$user['email']) . "</p>
+            <p><strong>Rôle :</strong> " . ucfirst(\$user['role']) . "</p>";
+            
+            if ($user['role'] === 'admin') {
+                $temp_content .= "
+            <p><strong>Privilèges :</strong> Administration complète</p>
+        </div>
+        
+        <div style='margin: 30px 0;'>
+            <h3>🛠️ Actions disponibles :</h3>
+            <a href='admin_coachs.php' class='btn'>👨‍🏫 Gérer les coachs</a>
+            <a href='admin_clients.php' class='btn'>👥 Gérer les clients</a>
+            <a href='admin_xml.php' class='btn'>📄 CV XML</a>
+            <a href='admin_salle.php' class='btn'>🏢 Salle de sport</a>
+        </div>";
+            } elseif ($user['role'] === 'coach') {
+                $temp_content .= "
+            <p><strong>Spécialité :</strong> " . (isset(\$user['specialite']) ? \$user['specialite'] : 'Non définie') . "</p>
+        </div>
+        
+        <div style='margin: 30px 0;'>
+            <h3>🏋️‍♂️ Actions disponibles :</h3>
+            <a href='coach_planning.php' class='btn'>📅 Mon planning</a>
+            <a href='coach_clients.php' class='btn'>👥 Mes clients</a>
+            <a href='coach_profil.php' class='btn'>👤 Mon profil</a>
+        </div>";
+            } else {
+                $temp_content .= "
+            <p><strong>Adresse :</strong> " . (isset(\$user['adresse']) ? \$user['adresse'] : 'Non définie') . "</p>
+            <p><strong>Carte étudiante :</strong> " . (isset(\$user['carte_etudiant']) ? \$user['carte_etudiant'] : 'Non définie') . "</p>
+        </div>
+        
+        <div style='margin: 30px 0;'>
+            <h3>🎯 Actions disponibles :</h3>
+            <a href='client_reservation.php' class='btn'>📅 Réserver</a>
+            <a href='client_rdv.php' class='btn'>📋 Mes RDV</a>
+            <a href='client_coachs.php' class='btn'>👨‍🏫 Voir les coachs</a>
+        </div>";
+            }
+            
+            $temp_content .= "
+        
+        <div style='text-align: center; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;'>
+            <p>⚠️ <em>Cette page est temporaire. Le vrai dashboard sera créé plus tard.</em></p>
+            <a href='votre_compte.php?logout=1' class='btn' style='background: #dc3545;'>🚪 Se déconnecter</a>
+        </div>
+    </div>
+</body>
+</html>";
+
+            // Créer le fichier temporaire
+            file_put_contents($target_file, $temp_content);
+            
+            header('Location: ' . $target_file);
+            exit;
+        }
     }
 }
 
@@ -66,13 +242,52 @@ if ($_POST && isset($_POST['register'])) {
     
     if ($password !== $confirm_password) {
         $error_message = 'Les mots de passe ne correspondent pas.';
-    } elseif (isset($users_test[$email])) {
-        $error_message = 'Cet email est déjà utilisé.';
+    } elseif (strlen($password) < 6) {
+        $error_message = 'Le mot de passe doit contenir au moins 6 caractères.';
     } else {
-        // Inscription réussie (simulation)
-        $success_message = 'Inscription réussie ! Vous pouvez maintenant vous connecter.';
+        $pdo = getDBConnection();
+        
+        if ($pdo !== null) {
+            try {
+                // Vérifier si l'email existe déjà
+                $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+                $stmt->execute([$email]);
+                
+                if ($stmt->fetch()) {
+                    $error_message = 'Cet email est déjà utilisé.';
+                } else {
+                    // Commencer une transaction
+                    $pdo->beginTransaction();
+                    
+                    // Insérer l'utilisateur
+                    $stmt = $pdo->prepare("INSERT INTO users (email, password, role, nom, prenom) VALUES (?, ?, 'client', ?, ?)");
+                    $stmt->execute([$email, hashPassword($password), $nom, $prenom]);
+                    $user_id = $pdo->lastInsertId();
+                    
+                    // Insérer les informations client
+                    $stmt = $pdo->prepare("INSERT INTO clients (user_id, adresse, carte_etudiant) VALUES (?, ?, ?)");
+                    $stmt->execute([$user_id, $adresse, $carte_etudiant]);
+                    
+                    $pdo->commit();
+                    $success_message = 'Inscription réussie dans la base de données ! Vous pouvez maintenant vous connecter.';
+                }
+            } catch (PDOException $e) {
+                $pdo->rollBack();
+                $error_message = 'Erreur lors de l\'inscription. Veuillez réessayer.';
+            }
+        } else {
+            // Pas de BDD disponible
+            if (isset($users_test[$email])) {
+                $error_message = 'Cet email est déjà utilisé (données de test).';
+            } else {
+                $success_message = 'Inscription simulée réussie ! (Base de données non disponible)';
+            }
+        }
     }
 }
+
+// Vérifier l'état de la base de données
+$db_status = getDBConnection() !== null ? 'connected' : 'unavailable';
 ?>
 
 <!DOCTYPE html>
@@ -81,9 +296,394 @@ if ($_POST && isset($_POST['register'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Votre Compte - Sportify</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .top-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.9), rgba(118, 75, 162, 0.9));
+            color: white;
+            text-align: center;
+            padding: 120px 0 80px;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .db-status {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 1001;
+        }
+
+        .db-status.connected {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .db-status.unavailable {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .role-selection {
+            padding: 80px 0;
+        }
+
+        .role-selection h2 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .role-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .role-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .role-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .role-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .role-card ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .role-card li {
+            padding: 0.5rem 0;
+            color: #555;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .login-section, .register-section {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .btn-lg {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .test-info, .register-info {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .test-info h3, .register-info h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .test-accounts {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .test-account {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+        }
+
+        .test-account h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .test-account p {
+            margin: 0.25rem 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .login-footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Statut de la base de données -->
+    <div class="db-status <?php echo $db_status; ?>">
+        <?php if ($db_status === 'connected'): ?>
+            🗃️ BDD Connectée
+        <?php else: ?>
+            🧪 Mode Test
+        <?php endif; ?>
+    </div>
+
     <!-- Navigation -->
     <div class="top-bar">
         <div class="header-container">
@@ -206,24 +806,25 @@ if ($_POST && isset($_POST['register'])) {
 
                 <!-- Informations de test -->
                 <div class="test-info">
-                    <h3>🧪 Comptes de test</h3>
+                    <h3><?php echo $db_status === 'connected' ? '🔑 Comptes de la BDD' : '🧪 Comptes de test'; ?></h3>
                     <div class="test-accounts">
                         <div class="test-account">
-                            <h4>👤 Client</h4>
-                            <p><strong>Email:</strong> client@test.com</p>
-                            <p><strong>Mot de passe:</strong> client123</p>
+                            <h4>🛡️ Admin</h4>
+                            <p><strong>Email:</strong> admin@sportify.com</p>
+                            <p><strong>Mot de passe:</strong> <?php echo $db_status === 'connected' ? 'password123' : 'admin123'; ?></p>
                         </div>
                         <div class="test-account">
                             <h4>🏋️‍♂️ Coach</h4>
                             <p><strong>Email:</strong> guy.dumais@sportify.com</p>
-                            <p><strong>Mot de passe:</strong> coach123</p>
+                            <p><strong>Mot de passe:</strong> <?php echo $db_status === 'connected' ? 'password123' : 'coach123'; ?></p>
                         </div>
                         <div class="test-account">
-                            <h4>🛡️ Admin</h4>
-                            <p><strong>Email:</strong> admin@sportify.com</p>
-                            <p><strong>Mot de passe:</strong> admin123</p>
+                            <h4>👤 Client</h4>
+                            <p><strong>Email:</strong> client@test.com</p>
+                            <p><strong>Mot de passe:</strong> <?php echo $db_status === 'connected' ? 'password123' : 'client123'; ?></p>
                         </div>
                     </div>
+                    <p><small><?php echo $db_status === 'connected' ? '✅ Connexion BDD active' : '⚠️ BDD indisponible - Mode test activé'; ?></small></p>
                 </div>
             </div>
         </div>
