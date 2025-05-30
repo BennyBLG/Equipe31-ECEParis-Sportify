@@ -2,8 +2,8 @@
 // Configuration de la base de données
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'sportify');
-define('DB_USER', 'root'); // Remplacez par votre utilisateur MySQL
-define('DB_PASS', ''); // Remplacez par votre mot de passe MySQL
+define('DB_USER', 'root');
+define('DB_PASS', ''); // Mot de passe vide pour WAMP par défaut
 
 // Fonction de connexion à la base de données
 function getDBConnection() {
