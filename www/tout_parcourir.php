@@ -192,10 +192,11 @@
 
                 <div class="activity-card">
                     <div class="activity-image">
-                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=350&h=200&fit=crop&crop=center" 
-                             alt="Biking"
-                             onerror="this.src='https://via.placeholder.com/350x200/45B7D1/ffffff?text=🚴‍♂️+Biking'">
+                        <img src="https://images.unsplash.com/photo-1554470166-20d3f466089b?q=80&w=350&h=200&auto=format&fit=crop&crop=center&ixlib=rb-4.1.0" 
+                            alt="Biking"
+                            onerror="this.src='https://via.placeholder.com/350x200/45B7D1/ffffff?text=🚴‍♂️+Biking'">
                     </div>
+
                     <div class="activity-content">
                         <h3>Biking</h3>
                         <p class="activity-description">
