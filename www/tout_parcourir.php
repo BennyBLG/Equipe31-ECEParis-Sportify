@@ -332,13 +332,14 @@
 
                 <div class="sport-card">
                     <div class="sport-image">
-                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&h=180&fit=crop&crop=center" 
-                             alt="Rugby"
-                             onerror="this.src='https://via.placeholder.com/300x180/D299C2/ffffff?text=🏉+Rugby'">
+                        <img src="https://images.unsplash.com/photo-1512299286776-c18be8ed6a1a?q=80&w=300&h=180&auto=format&fit=crop&ixlib=rb-4.1.0" 
+                            alt="Rugby"
+                            onerror="this.src='https://via.placeholder.com/300x180/D299C2/ffffff?text=🏉+Rugby'">
                         <div class="sport-overlay">
                             <h3>Rugby</h3>
                         </div>
                     </div>
+
                     <div class="sport-content">
                         <div class="sport-details">
                             <h4>Coach : Pierre ROUX</h4>
