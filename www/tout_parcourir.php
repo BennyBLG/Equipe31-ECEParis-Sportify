@@ -220,10 +220,11 @@
 
                 <div class="activity-card">
                     <div class="activity-image">
-                        <img src="https://images.unsplash.com/photo-1633394782240-f81aba3f850d?q=80&w=350&h=200&auto=format&fit=crop&ixlib=rb-4.1.0" 
+                        <img src="https://images.unsplash.com/photo-1633394782240-f81aba3f850d?q=80&w=350&h=200&auto=format&fit=crop&crop=top&ixlib=rb-4.1.0" 
                             alt="Cardio-Training"
                             onerror="this.src='https://via.placeholder.com/350x200/F093FB/ffffff?text=❤️+Cardio'">
                     </div>
+
 
                     <div class="activity-content">
                         <h3>Cardio-Training</h3>
