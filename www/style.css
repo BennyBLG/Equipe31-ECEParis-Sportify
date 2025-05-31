@@ -46,6 +46,15 @@ body {
     z-index: 1000;
 }
 
+.top-bar ul li.active a {
+    color: white;           /* texte en blanc */
+    background-color: #667eea; /* fond blebleu pâle */
+    border-radius: 4px;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+
+
 .header-container {
     width: 100%;
     text-align: center;
