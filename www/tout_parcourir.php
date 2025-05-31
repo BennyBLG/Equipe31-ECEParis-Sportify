@@ -396,13 +396,14 @@
 
                 <div class="sport-card">
                     <div class="sport-image">
-                        <img src="https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=300&h=180&fit=crop&crop=center" 
-                             alt="Plongeon"
-                             onerror="this.src='https://via.placeholder.com/300x180/FDBB2D/ffffff?text=🤸‍♂️+Plongeon'">
+                        <img src="https://images.unsplash.com/photo-1659303388057-de33f9a6a924?q=80&w=300&h=180&auto=format&fit=crop&ixlib=rb-4.1.0" 
+                            alt="Plongeon"
+                            onerror="this.src='https://via.placeholder.com/300x180/FDBB2D/ffffff?text=🤸‍♂️+Plongeon'">
                         <div class="sport-overlay">
                             <h3>Plongeon</h3>
                         </div>
                     </div>
+
                     <div class="sport-content">
                         <div class="sport-details">
                             <h4>Coach : Thomas COLIN</h4>
