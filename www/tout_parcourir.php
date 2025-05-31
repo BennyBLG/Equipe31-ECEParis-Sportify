@@ -133,10 +133,11 @@
             <div class="activities-grid">
                 <div class="activity-card">
                     <div class="activity-image">
-                        <img src="https://images.unsplash.com/photo-1571019613540-996a58b31c02?w=350&h=200&fit=crop&crop=center" 
-                             alt="Musculation"
-                             onerror="this.src='https://via.placeholder.com/350x200/FF6B6B/ffffff?text=💪+Musculation'">
+                        <img src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?q=80&w=350&h=200&auto=format&fit=crop&crop=center&ixlib=rb-4.1.0" 
+                            alt="Musculation"
+                            onerror="this.src='https://via.placeholder.com/350x200/FF6B6B/ffffff?text=💪+Musculation'">
                     </div>
+
                     <div class="activity-content">
                         <h3>Musculation</h3>
                         <p class="activity-description">
