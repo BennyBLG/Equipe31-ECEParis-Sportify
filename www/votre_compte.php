@@ -1,135 +1,91 @@
 <?php
 session_start();
 
-// Configuration de la base de données (directement dans le fichier)
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'sportify');
-define('DB_USER', 'root');
-define('DB_PASS', ''); // Mot de passe vide pour WAMP par défaut
-
-// Fonction de connexion à la base de données
-function getDBConnection() {
-    try {
-        $pdo = new PDO(
-            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-            DB_USER,
-            DB_PASS,
-            [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ]
-        );
-        return $pdo;
-    } catch (PDOException $e) {
-        // Si la BDD ne fonctionne pas, utiliser les données de test
-        return null;
-    }
-}
-
-// Fonction pour hasher les mots de passe
-function hashPassword($password) {
-    return password_hash($password, PASSWORD_DEFAULT);
-}
-
-// Fonction pour vérifier les mots de passe
-function verifyPassword($password, $hash) {
-    return password_verify($password, $hash);
-}
-
-// Données de test (en cas de problème avec la BDD)
-$users_test = [
-    'admin@sportify.com' => ['password' => 'admin123', 'role' => 'admin', 'nom' => 'ADMINISTRATEUR', 'prenom' => 'Sportify'],
-    'guy.dumais@sportify.com' => ['password' => 'coach123', 'role' => 'coach', 'nom' => 'DUMAIS', 'prenom' => 'Guy', 'specialite' => 'Musculation'],
-    'marie.martin@sportify.com' => ['password' => 'coach123', 'role' => 'coach', 'nom' => 'MARTIN', 'prenom' => 'Marie', 'specialite' => 'Fitness'],
-    'paul.bernard@sportify.com' => ['password' => 'coach123', 'role' => 'coach', 'nom' => 'BERNARD', 'prenom' => 'Paul', 'specialite' => 'Tennis'],
-    'client@test.com' => ['password' => 'client123', 'role' => 'client', 'nom' => 'DUPONT', 'prenom' => 'Jean', 'adresse' => '123 Rue Test, Paris', 'carte_etudiant' => 'ETU2025001'],
-    'marie.client@test.com' => ['password' => 'client123', 'role' => 'client', 'nom' => 'DURAND', 'prenom' => 'Marie', 'adresse' => '456 Avenue Test, Lyon', 'carte_etudiant' => 'ETU2025002']
+// Comptes utilisateurs simplifiés
+$accounts = [
+    "admin@sportify.com" => [
+        "password" => "password123",
+        "role" => "admin",
+        "nom" => "ADMINISTRATEUR",
+        "prenom" => "Sportify",
+        "redirect" => "admin.php"
+    ],
+    "guy.dumais@sportify.com" => [
+        "password" => "password123",
+        "role" => "coach",
+        "nom" => "DUMAIS",
+        "prenom" => "Guy",
+        "specialite" => "Musculation",
+        "redirect" => "coach.php"
+    ],
+    "marie.martin@sportify.com" => [
+        "password" => "password123",
+        "role" => "coach",
+        "nom" => "MARTIN",
+        "prenom" => "Marie",
+        "specialite" => "Fitness",
+        "redirect" => "coach.php"
+    ],
+    "paul.bernard@sportify.com" => [
+        "password" => "password123",
+        "role" => "coach",
+        "nom" => "BERNARD",
+        "prenom" => "Paul",
+        "specialite" => "Tennis",
+        "redirect" => "coach.php"
+    ],
+    "client@test.com" => [
+        "password" => "password123",
+        "role" => "client",
+        "nom" => "DUPONT",
+        "prenom" => "Jean",
+        "adresse" => "123 Rue Test, Paris",
+        "carte_etudiant" => "ETU2025001",
+        "redirect" => "client.php"
+    ],
+    "marie.client@test.com" => [
+        "password" => "password123",
+        "role" => "client",
+        "nom" => "DURAND",
+        "prenom" => "Marie",
+        "adresse" => "456 Avenue Test, Lyon",
+        "carte_etudiant" => "ETU2025002",
+        "redirect" => "client.php"
+    ]
 ];
 
-$error_message = '';
-$success_message = '';
-$using_database = false;
+$message = "";
+$message_type = "";
 
 // Traitement de la connexion
-if ($_POST && isset($_POST['login'])) {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
+    $email = trim($_POST["email"] ?? '');
+    $password = $_POST["password"] ?? '';
     
-    // Essayer d'abord avec la base de données
-    $pdo = getDBConnection();
-    
-    if ($pdo !== null) {
-        try {
-            // Utiliser la vraie base de données
-            $stmt = $pdo->prepare("SELECT u.*, c.specialite FROM users u 
-                                  LEFT JOIN coachs c ON u.id = c.user_id 
-                                  WHERE u.email = ? AND u.statut = 'actif'");
-            $stmt->execute([$email]);
-            $user = $stmt->fetch();
-            
-            if ($user && verifyPassword($password, $user['password'])) {
-                // Connexion réussie avec BDD
-                $_SESSION['user_logged_in'] = true;
-                $_SESSION['user_info'] = [
-                    'id' => $user['id'],
-                    'email' => $user['email'],
-                    'role' => $user['role'],
-                    'nom' => $user['nom'],
-                    'prenom' => $user['prenom'],
-                    'telephone' => $user['telephone'],
-                    'specialite' => $user['specialite'] ?? null
-                ];
-                $using_database = true;
-                $success_message = 'Connexion réussie avec la base de données !';
-            } else {
-                $error_message = 'Email ou mot de passe incorrect (BDD).';
-            }
-        } catch (PDOException $e) {
-            // Si erreur BDD, essayer avec les données de test
-            $pdo = null;
-        }
-    }
-    
-    // Si pas de BDD ou erreur, utiliser les données de test
-    if ($pdo === null && !$using_database) {
-        if (isset($users_test[$email]) && $users_test[$email]['password'] === $password) {
-            // Connexion réussie avec données de test
-            $user = $users_test[$email];
-            $_SESSION['user_logged_in'] = true;
-            $_SESSION['user_info'] = array_merge(['email' => $email], $user);
-            $success_message = 'Connexion réussie avec données de test !';
-        } else {
-            $error_message = 'Email ou mot de passe incorrect.';
-        }
-    }
-    
-    // Redirection si connexion réussie
-    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
-        $user = $_SESSION['user_info'];
+    if (isset($accounts[$email]) && $accounts[$email]["password"] === $password) {
+        // Connexion réussie
+        $_SESSION["user_logged_in"] = true;
+        $_SESSION["email"] = $email;
+        $_SESSION["role"] = $accounts[$email]["role"];
+        $_SESSION["user_info"] = array_merge(['email' => $email], $accounts[$email]);
         
-        $redirect_files = [
-            'admin' => 'dashboard_admin.php',
-            'coach' => 'dashboard_coach.php',
-            'client' => 'dashboard_client.php'
-        ];
-        
-        $target_file = $redirect_files[$user['role']];
-        
-        // Redirection directe vers le fichier (même s'il n'existe pas encore)
-        header('Location: ' . $target_file);
-        exit;
+        header("Location: " . $accounts[$email]["redirect"]);
+        exit();
+    } else {
+        $message = "Email ou mot de passe incorrect.";
+        $message_type = "error";
     }
 }
 
 // Traitement de la déconnexion
 if (isset($_GET['logout'])) {
     session_destroy();
-    $success_message = 'Vous avez été déconnecté avec succès.';
+    $message = "Vous avez été déconnecté avec succès.";
+    $message_type = "success";
 }
 
-// Traitement de l'inscription client
-if ($_POST && isset($_POST['register'])) {
+// Traitement de l'inscription (simulation)
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['register'])) {
     $nom = trim($_POST['nom']);
     $prenom = trim($_POST['prenom']);
     $email = trim($_POST['email']);
@@ -139,53 +95,19 @@ if ($_POST && isset($_POST['register'])) {
     $carte_etudiant = trim($_POST['carte_etudiant']);
     
     if ($password !== $confirm_password) {
-        $error_message = 'Les mots de passe ne correspondent pas.';
+        $message = "Les mots de passe ne correspondent pas.";
+        $message_type = "error";
     } elseif (strlen($password) < 6) {
-        $error_message = 'Le mot de passe doit contenir au moins 6 caractères.';
+        $message = "Le mot de passe doit contenir au moins 6 caractères.";
+        $message_type = "error";
+    } elseif (isset($accounts[$email])) {
+        $message = "Cet email est déjà utilisé.";
+        $message_type = "error";
     } else {
-        $pdo = getDBConnection();
-        
-        if ($pdo !== null) {
-            try {
-                // Vérifier si l'email existe déjà
-                $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-                $stmt->execute([$email]);
-                
-                if ($stmt->fetch()) {
-                    $error_message = 'Cet email est déjà utilisé.';
-                } else {
-                    // Commencer une transaction
-                    $pdo->beginTransaction();
-                    
-                    // Insérer l'utilisateur
-                    $stmt = $pdo->prepare("INSERT INTO users (email, password, role, nom, prenom) VALUES (?, ?, 'client', ?, ?)");
-                    $stmt->execute([$email, hashPassword($password), $nom, $prenom]);
-                    $user_id = $pdo->lastInsertId();
-                    
-                    // Insérer les informations client
-                    $stmt = $pdo->prepare("INSERT INTO clients (user_id, adresse, carte_etudiant) VALUES (?, ?, ?)");
-                    $stmt->execute([$user_id, $adresse, $carte_etudiant]);
-                    
-                    $pdo->commit();
-                    $success_message = 'Inscription réussie dans la base de données ! Vous pouvez maintenant vous connecter.';
-                }
-            } catch (PDOException $e) {
-                $pdo->rollBack();
-                $error_message = 'Erreur lors de l\'inscription. Veuillez réessayer.';
-            }
-        } else {
-            // Pas de BDD disponible
-            if (isset($users_test[$email])) {
-                $error_message = 'Cet email est déjà utilisé (données de test).';
-            } else {
-                $success_message = 'Inscription simulée réussie ! (Base de données non disponible)';
-            }
-        }
+        $message = "Inscription simulée réussie ! (Fonctionnalité en développement)";
+        $message_type = "success";
     }
 }
-
-// Vérifier l'état de la base de données
-$db_status = getDBConnection() !== null ? 'connected' : 'unavailable';
 ?>
 
 <!DOCTYPE html>
@@ -274,7 +196,7 @@ $db_status = getDBConnection() !== null ? 'connected' : 'unavailable';
             opacity: 0.9;
         }
 
-        .db-status {
+        .mode-status {
             position: fixed;
             top: 70px;
             right: 20px;
@@ -283,15 +205,6 @@ $db_status = getDBConnection() !== null ? 'connected' : 'unavailable';
             font-size: 0.8rem;
             font-weight: 500;
             z-index: 1001;
-        }
-
-        .db-status.connected {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .db-status.unavailable {
             background: #fff3cd;
             color: #856404;
             border: 1px solid #ffeaa7;
@@ -573,13 +486,9 @@ $db_status = getDBConnection() !== null ? 'connected' : 'unavailable';
     </style>
 </head>
 <body>
-    <!-- Statut de la base de données -->
-    <div class="db-status <?php echo $db_status; ?>">
-        <?php if ($db_status === 'connected'): ?>
-            🗃️ BDD Connectée
-        <?php else: ?>
-            🧪 Mode Test
-        <?php endif; ?>
+    <!-- Statut du mode -->
+    <div class="mode-status">
+        🔧 Mode Simplifié
     </div>
 
     <!-- Navigation -->
@@ -662,17 +571,17 @@ $db_status = getDBConnection() !== null ? 'connected' : 'unavailable';
                         <p id="login-subtitle">Accédez à votre espace personnel</p>
                     </div>
 
-                    <?php if ($error_message): ?>
+                    <?php if ($message && $message_type === 'error'): ?>
                         <div class="alert alert-error">
                             <span class="alert-icon">❌</span>
-                            <?php echo $error_message; ?>
+                            <?php echo $message; ?>
                         </div>
                     <?php endif; ?>
 
-                    <?php if ($success_message): ?>
+                    <?php if ($message && $message_type === 'success'): ?>
                         <div class="alert alert-success">
                             <span class="alert-icon">✅</span>
-                            <?php echo $success_message; ?>
+                            <?php echo $message; ?>
                         </div>
                     <?php endif; ?>
 
@@ -704,25 +613,28 @@ $db_status = getDBConnection() !== null ? 'connected' : 'unavailable';
 
                 <!-- Informations de test -->
                 <div class="test-info">
-                    <h3><?php echo $db_status === 'connected' ? '🔑 Comptes de la BDD' : '🧪 Comptes de test'; ?></h3>
+                    <h3>🔑 Comptes de test disponibles</h3>
                     <div class="test-accounts">
                         <div class="test-account">
                             <h4>🛡️ Admin</h4>
                             <p><strong>Email:</strong> admin@sportify.com</p>
-                            <p><strong>Mot de passe:</strong> <?php echo $db_status === 'connected' ? 'password123' : 'admin123'; ?></p>
+                            <p><strong>Mot de passe:</strong> password123</p>
+                            <p><em>Redirige vers → admin.php</em></p>
                         </div>
                         <div class="test-account">
                             <h4>🏋️‍♂️ Coach</h4>
                             <p><strong>Email:</strong> guy.dumais@sportify.com</p>
-                            <p><strong>Mot de passe:</strong> <?php echo $db_status === 'connected' ? 'password123' : 'coach123'; ?></p>
+                            <p><strong>Mot de passe:</strong> password123</p>
+                            <p><em>Redirige vers → coach.php</em></p>
                         </div>
                         <div class="test-account">
                             <h4>👤 Client</h4>
                             <p><strong>Email:</strong> client@test.com</p>
-                            <p><strong>Mot de passe:</strong> <?php echo $db_status === 'connected' ? 'password123' : 'client123'; ?></p>
+                            <p><strong>Mot de passe:</strong> password123</p>
+                            <p><em>Redirige vers → client.php</em></p>
                         </div>
                     </div>
-                    <p><small><?php echo $db_status === 'connected' ? '✅ Connexion BDD active' : '⚠️ BDD indisponible - Mode test activé'; ?></small></p>
+                    <p><small>✅ Système simplifié actif</small></p>
                 </div>
             </div>
         </div>
@@ -798,6 +710,11 @@ $db_status = getDBConnection() !== null ? 'connected' : 'unavailable';
                         <li>✅ Tarifs préférentiels étudiants</li>
                         <li>✅ Annulation gratuite jusqu'à 24h avant</li>
                     </ul>
+                    
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border-radius: 10px; border-left: 4px solid #ffc107;">
+                        <h4 style="color: #856404; margin-bottom: 0.5rem;">⚠️ Mode développement</h4>
+                        <p style="color: #856404; font-size: 0.9rem; margin: 0;">L'inscription est actuellement simulée. Utilisez les comptes de test pour vous connecter.</p>
+                    </div>
                 </div>
             </div>
         </div>
