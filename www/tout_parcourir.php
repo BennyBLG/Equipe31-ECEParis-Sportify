@@ -64,16 +64,20 @@
     </style>
 </head>
 <body>
+    <?php
+    $current_page = basename($_SERVER['PHP_SELF']);
+    ?>
+
     <!-- Navigation -->
     <div class="top-bar">
         <div class="header-container">
             <nav>
                 <ul>
-                    <li><a href="accueil.php">Accueil</a></li>
-                    <li><a href="tout_parcourir.php">Tout Parcourir</a></li>
-                    <li><a href="recherche.php">Recherche</a></li>
-                    <li><a href="rendez_vous.php">Rendez-vous</a></li>
-                    <li><a href="votre_compte.php">Votre Compte</a></li>
+                    <li class="<?= ($current_page == 'accueil.php') ? 'active' : '' ?>"><a href="accueil.php">Accueil</a></li>
+                    <li class="<?= ($current_page == 'tout_parcourir.php') ? 'active' : '' ?>"><a href="tout_parcourir.php">Tout Parcourir</a></li>
+                    <li class="<?= ($current_page == 'recherche.php') ? 'active' : '' ?>"><a href="recherche.php">Recherche</a></li>
+                    <li class="<?= ($current_page == 'rendez_vous.php') ? 'active' : '' ?>"><a href="rendez_vous.php">Rendez-vous</a></li>
+                    <li class="<?= ($current_page == 'votre_compte.php') ? 'active' : '' ?>"><a href="votre_compte.php">Votre Compte</a></li>
                 </ul>
             </nav>
         </div>
